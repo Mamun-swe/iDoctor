@@ -1,0 +1,18 @@
+@import "../../App.scss";
+
+.doctor-show {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    overflow-y: auto;
+    background: #fff;
+    transition: 0.4s all;
+
+    @media (min-width: 992px) {
+        width: 450px;
+    }
+}
