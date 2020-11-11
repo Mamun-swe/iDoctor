@@ -7,6 +7,7 @@ import DoctorImg from '../../Assets/doctor.jpg'
 
 const Index = ({ doctors }) => {
     const [show, setShow] = useState(false)
+    const [doctor, setDoctor] = useState()
 
     const closeShow = () => {
         setShow(false)
@@ -14,8 +15,8 @@ const Index = ({ doctors }) => {
 
     // Show Doctor Info
     const shwoDoctorInfo = data => {
-        // alert(data.id)
         setShow(true)
+        setDoctor(data)
     }
 
     return (
@@ -46,7 +47,7 @@ const Index = ({ doctors }) => {
             </div>
 
             {/* Show Doctor */}
-            {show ? <DoctorShowComponent show={closeShow} /> : null}
+            {show ? <DoctorShowComponent show={closeShow} doctor={doctor} /> : null}
         </div>
     );
 };
