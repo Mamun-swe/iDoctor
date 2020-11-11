@@ -1,7 +1,9 @@
 import React from 'react'
 import '../../Styles/Modal/doctor-show.scss'
 import Icon from 'react-icons-kit'
-import { ic_clear } from 'react-icons-kit/md'
+import { ic_clear, ic_star } from 'react-icons-kit/md'
+
+import DummyImage from '../../Assets/doctor.jpg'
 
 const DoctorShow = ({ show }) => {
     return (
@@ -15,6 +17,23 @@ const DoctorShow = ({ show }) => {
                     >
                         <Icon icon={ic_clear} size={30} />
                     </button>
+                </div>
+
+                {/* Body */}
+                <div className="body pt-3">
+                    <div className="text-center">
+                        <div className="img-box rounded-circle">
+                            <img src={DummyImage} className="img-fluid" alt="..." />
+                        </div>
+                        <br />
+                        <h5 className="mb-0 text-capitalize">Dr. rabby</h5>
+                        <p>( MBBS, DMC )</p>
+                        <Icon icon={ic_star} size={20} />
+                        <Icon icon={ic_star} size={20} />
+                        <Icon icon={ic_star} size={20} />
+                        <Icon icon={ic_star} size={20} />
+                        <Icon icon={ic_star} size={20} />
+                    </div>
                 </div>
             </div>
         </div>
