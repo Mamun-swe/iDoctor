@@ -6,20 +6,20 @@ import {
   Route
 } from 'react-router-dom'
 
-import ScrollToTop from './Components/ScrollToTop/Index'
+import ScrollToTop from './components/ScrollToTop/Index'
 
-import HomeIndex from './Pages/Home/Index'
-import AboutIndex from './Pages/About/Index'
-import ContactIndex from './Pages/Contact/Index'
-import SearchResultIndex from './Pages/SearchResult/Index'
+import HomeIndex from './pages/Home/Index'
+import AboutIndex from './pages/About/Index'
+import ContactIndex from './pages/Contact/Index'
+import SearchResultIndex from './pages/SearchResult/Index'
 
-import LoginIndex from './Pages/Auth/Login'
-import RegisterIndex from './Pages/Auth/Register'
-import ResetIndex from './Pages/Auth/Reset'
+import LoginIndex from './pages/Auth/Login'
+import RegisterIndex from './pages/Auth/Register'
+import ResetIndex from './pages/Auth/Reset'
 
-import DoctorAccountMaster from './Pages/Account/Doctor/Master'
+import DoctorAccountMaster from './pages/Account/Doctor/Master'
 
-import FourOFour from './Pages/FourOFour/Index'
+import FourOFour from './pages/FourOFour/Index'
 
 function App() {
   return (
