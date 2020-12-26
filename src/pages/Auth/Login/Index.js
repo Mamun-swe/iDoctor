@@ -42,6 +42,7 @@ const Login = () => {
         history.push('/doctor')
         // checkRole(response.data.token)
 
+
         // try {
         //     setLoading(true)
         //     const response = await axios.post("", data)
