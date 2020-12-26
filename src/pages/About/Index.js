@@ -1,8 +1,8 @@
 import React from 'react'
-import '../../styles/About/style.scss'
+import './style.scss'
 
-import NavbarCompoent from '../../components/Navbar/Index'
-import FooterCompoent from '../../components/Footer/Index'
+import NavbarCompoent from '../../components/User/Navbar/Index'
+import FooterCompoent from '../../components/User/Footer/Index'
 
 import AboutImg from '../../assets/Static/about.png'
 

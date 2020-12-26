@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import '../../../../styles/Account/Doctor/Dashboard/style.scss'
+import './style.scss'
 import { Bar } from 'react-chartjs-2'
 
 const Index = () => {
     const [year] = useState(new Date().getFullYear())
-    const [data, setData] = useState({
+    const [data] = useState({
         labels: [
             'January',
             'February',

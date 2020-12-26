@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { apiURL } from '../../utils/apiURL'
 
-import NavbarComponent from '../../components/Navbar/Index'
-import SearchComponent from '../../components/Search/Index'
-import DoctorsListComponent from '../../components/DoctorsList/Index'
-import FooterCompoent from '../../components/Footer/Index'
+import NavbarComponent from '../../components/User/Navbar/Index'
+import SearchComponent from '../../components/User/Search/Index'
+import DoctorsListComponent from '../../components/User/DoctorsList/Index'
+import FooterCompoent from '../../components/User/Footer/Index'
 
 const Index = () => {
     const [doctors, setDoctors] = useState([])

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import '../../styles/Home/style.scss'
+import './style.scss'
 import axios from 'axios'
 import { apiURL } from '../../utils/apiURL'
 
-import NavbarComponent from '../../components/Navbar/Index'
-import SearchComponent from '../../components/Search/Index'
-import DoctorsListComponent from '../../components/DoctorsList/Index'
-import FooterCompoent from '../../components/Footer/Index'
+import NavbarComponent from '../../components/User/Navbar/Index'
+import SearchComponent from '../../components/User/Search/Index'
+import DoctorsListComponent from '../../components/User/DoctorsList/Index'
+import FooterCompoent from '../../components/User/Footer/Index'
 
 import SearchPeopleImg from '../../assets/Static/people_search.png'
 import ServiceImg from '../../assets/Static/service.png'
@@ -16,6 +16,7 @@ const Index = () => {
     const [latitude, setLatitude] = useState()
     const [longitude, setLongitude] = useState()
     const [doctors, setDoctors] = useState([])
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
         const geo = navigator.geolocation;
@@ -34,6 +35,7 @@ const Index = () => {
             try {
                 const response = await axios.get(`${apiURL}users`)
                 setDoctors(response.data)
+                setLoading(false)
             } catch (error) {
                 if (error) console.log(error.response)
             }
@@ -76,7 +78,7 @@ const Index = () => {
                         </div>
                     </div>
                 </div>
-                <DoctorsListComponent doctors={doctors} />
+                <DoctorsListComponent doctors={doctors} loading={isLoading} />
             </div>
 
             {/* Service */}

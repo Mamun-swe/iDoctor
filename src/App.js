@@ -13,11 +13,13 @@ import AboutIndex from './pages/About/Index'
 import ContactIndex from './pages/Contact/Index'
 import SearchResultIndex from './pages/SearchResult/Index'
 
-import LoginIndex from './pages/Auth/Login'
-import RegisterIndex from './pages/Auth/Register'
-import ResetIndex from './pages/Auth/Reset'
+import LoginIndex from './pages/Auth/Login/Index'
+import RegisterIndex from './pages/Auth/Register/Index'
+import ResetIndex from './pages/Auth/Reset/Index'
 
-import DoctorAccountMaster from './pages/Account/Doctor/Master'
+import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
+import UserAccountMaster from './pages/Account/User/Master/Index'
+import PrivateRoute from './components/PrivateRoute/Index'
 
 import FourOFour from './pages/FourOFour/Index'
 
@@ -36,7 +38,13 @@ function App() {
             <Route exact path="/register" component={RegisterIndex} />
             <Route exact path="/reset" component={ResetIndex} />
 
-            <Route path="/doctor" component={DoctorAccountMaster} />
+            <PrivateRoute path="/doctor" role="doctor">
+              <DoctorAccountMaster />
+            </PrivateRoute>
+
+            <PrivateRoute path="/patient" role="patient">
+              <UserAccountMaster />
+            </PrivateRoute>
 
             <Route path="*" component={FourOFour} />
 

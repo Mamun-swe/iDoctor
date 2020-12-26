@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../styles/Contact/style.scss'
+import './style.scss'
 // import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -8,8 +8,8 @@ import { Icon } from 'react-icons-kit'
 import { ic_phone, ic_markunread, ic_location_on } from 'react-icons-kit/md'
 import { printer } from 'react-icons-kit/icomoon'
 
-import NavbarCompoent from '../../components/Navbar/Index'
-import FooterCompoent from '../../components/Footer/Index'
+import NavbarCompoent from '../../components/User/Navbar/Index'
+import FooterCompoent from '../../components/User/Footer/Index'
 
 import ContactImg from '../../assets/Static/contact.png'
 
