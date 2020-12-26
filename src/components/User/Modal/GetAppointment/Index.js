@@ -4,7 +4,6 @@ import Icon from 'react-icons-kit'
 import { ic_clear } from 'react-icons-kit/md'
 import { useForm } from 'react-hook-form'
 
-<<<<<<< HEAD:src/components/User/Modal/GetAppointment/Index.js
 const GetAppointment = ({ hidemodal, appointment, loading }) => {
     const { register, handleSubmit, errors } = useForm()
 
@@ -14,26 +13,6 @@ const GetAppointment = ({ hidemodal, appointment, loading }) => {
         // console.log(data)
         // toast.success("Successfully account created")
         // setLoading(false)
-=======
-import ToastNotification from '../Toast-Notification/Index'
-
-const GetAppointment = ({ hidemodal }) => {
-    const { register, handleSubmit, errors } = useForm()
-    const [isLoading, setLoading] = useState(false)
-    const [notification, setNotification] = useState(false)
-    const [notificationData, setNotificationData] = useState()
-
-    const onSubmit = async (data) => {
-        setLoading(true)
-        console.log(data)
-        setNotification(true)
-        setNotificationData({
-            toast: 'success',
-            position: 'top-right',
-            title: 'Successfully',
-            message: 'Your request has been sent.',
-        })
->>>>>>> 229cc43290658bcfa5f984c6d19f4c64ca168afc:src/components/Modal/GetAppointment.js
     }
 
     return (
@@ -249,11 +228,11 @@ const GetAppointment = ({ hidemodal }) => {
             </div>
 
             {/* Notification */}
-            {notification ?
+            {/* {notification ?
                 <ToastNotification
                     {...notificationData}
                 />
-                : null}
+                : null} */}
         </div>
     );
 };
