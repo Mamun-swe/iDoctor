@@ -15,12 +15,15 @@ app.use(fileUpload())
 app.use('/uploads/images', express.static('uploads/images/'))
 
 // Main Routes
-const doctorRoute = require("./api/routes/doctor")
-const patientRoute = require("./api/routes/patient")
+// const doctorRoute = require("./api/routes/doctor")
+// const patientRoute = require("./api/routes/patient")
+const authRoute = require('./api/routes/auth')
 
 // API URL's
-app.use("/api/doctor", doctorRoute)
-app.use("/api/patient", patientRoute)
+app.use('/api/auth', authRoute)
+// app.use("/api/doctor", doctorRoute)
+// app.use("/api/patient", patientRoute)
+
 
 app.use((req, res, next) => {
     let error = new Error('404 page Not Found')
@@ -49,15 +52,20 @@ app.get('/', (req, res) => {
     res.send("Hello I am node.js application")
 })
 
-// DB Connection here
-const URL = "mongodb://localhost:27017/idoctor"
-mongoose.connect(URL, {
+// DB Connection
+mongoose.connect('mongodb+srv://mamun166009:1118964208@cluster0-lkz2b.mongodb.net/idoctor?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    autoIndex: false,
-    useFindAndModify: false
-}).then(() => console.log("Database connected"));
+    useNewUrlParser: true
+});
+const db = mongoose.connection
+db.on('error', (err) => {
+    console.log(err)
+})
+db.once('open', () => {
+    console.log('MongoDB connection success')
+})
 
 // App Port
 const port = process.env.PORT || 4000

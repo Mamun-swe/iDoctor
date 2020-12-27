@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../style.scss'
-// import axios from 'axios';
-// import { apiURL } from '../../utils/apiURL';
+import axios from 'axios'
+import { apiURL } from '../../../utils/apiURL'
 import { useForm } from "react-hook-form"
 import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -37,26 +37,24 @@ const Login = () => {
     }
 
     const onSubmit = async (data) => {
-        setLoading(true)
-        console.log(data)
-        history.push('/doctor')
-        // checkRole(response.data.token)
+        // history.push('/doctor')
+        // 
 
 
-        // try {
-        //     setLoading(true)
-        //     const response = await axios.post("", data)
-        //     if (response.status === 200) {
-        //         localStorage.setItem('token', response.data.access_token)
-        //         history.push('/account')
-        //         setLoading(false)
-        //     }
-        // } catch (error) {
-        //     if (error && error.response.status !== 200) {
-        //         setLoading(false)
-        //         toast.warn(error.response.data)
-        //     }
-        // }
+        try {
+            setLoading(true)
+            const response = await axios.post(`${apiURL}auth/login`, data)
+            if (response.status === 200) {
+                setLoading(false)
+                localStorage.setItem('token', response.data.token)
+                checkRole(response.data.token)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                toast.warn(error.response.data.message)
+            }
+        }
     }
 
     return (

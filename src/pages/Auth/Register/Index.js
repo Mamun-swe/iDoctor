@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../style.scss'
-// import axios from 'axios'
-// import { apiURL } from '../../utils/apiURL';
+import axios from 'axios'
+import { apiURL } from '../../../utils/apiURL'
 import { useForm } from "react-hook-form"
 import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -16,23 +16,26 @@ const Register = () => {
     const [isLoading, setLoading] = useState(false)
 
     const onSubmit = async (data) => {
-        setLoading(true)
-        console.log(data)
-        history.push('/login')
-        // try {
-        //     setLoading(true)
-        //     const response = await axios.post("https://colourbangladev.xyz/api/register", data)
-        //     if (response.status === 200) {
-        //         toast.success("Successfully account created")
-        //         setLoading(false)
-        //         history.push('/sign-in')
-        //     }
-        // } catch (error) {
-        //     if (error && error.response.status !== 200) {
-        //         setLoading(false)
-        //         toast.warn(error.response.data.message)
-        //     }
-        // }
+        // history.push('/login')
+        try {
+            setLoading(true)
+            const response = await axios.post(`${apiURL}auth/register`, data)
+            if (response.status === 201) {
+                toast.success(response.data.message)
+                setLoading(false)
+                history.push('/login')
+            }
+
+            if (response.status === 208) {
+                toast.warn(response.data.message)
+                setLoading(false)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                toast.warn(error.response.data.message)
+            }
+        }
     }
 
 
@@ -99,13 +102,13 @@ const Register = () => {
 
                             {/* Account type */}
                             <div className="form-group mb-3">
-                                {errors.account_type && errors.account_type.message ? (
-                                    <small className="text-danger">{errors.account_type && errors.account_type.message}</small>
+                                {errors.role && errors.role.message ? (
+                                    <small className="text-danger">{errors.role && errors.role.message}</small>
                                 ) : <small>Account type</small>
                                 }
 
                                 <select
-                                    name="account_type"
+                                    name="role"
                                     className="form-control shadow-none pl-1"
                                     ref={register({
                                         required: "Account type is required"
