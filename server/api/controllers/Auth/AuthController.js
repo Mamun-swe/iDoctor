@@ -148,10 +148,45 @@ const Logout = async (req, res, next) => {
     }
 }
 
+// Me
+const Me = async (req, res, next) => {
+    try {
+        // Split token
+        const token = req.headers.authorization.split(' ')[1]
+        const decode = jwt.verify(token, 'SECRET')
+
+        // Find account using account id and role
+        let account = await User.findOne({
+            $and: [
+                { _id: decode.id },
+                { role: decode.role }
+            ]
+        },
+            { name: 1, email: 1, image: 1 }
+        ).exec()
+        
+        if (!account) {
+            return res.status(404).json({
+                status: false,
+                message: 'Invalid token'
+            })
+        }
+
+        return res.status(200).json({
+            status: true,
+            user: account
+        })
+
+    } catch (error) {
+        if (error) next(error)
+    }
+}
+
 
 module.exports = {
     Register,
     Login,
     Reset,
-    Logout
+    Logout,
+    Me
 }

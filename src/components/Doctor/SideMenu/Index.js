@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.scss'
 import { NavLink, useHistory } from 'react-router-dom'
 import { Icon } from 'react-icons-kit'
@@ -11,16 +11,34 @@ import {
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
 
-import ProfileImg from '../../../assets/doctor.jpg'
+import fakeImg from '../../../assets/Static/vector.jpg'
 import { ic_edit } from 'react-icons-kit/md'
 
 const SideMenu = ({ editdialog }) => {
     const history = useHistory()
+    const [user, setUser] = useState({})
     const [isLoading, setLoading] = useState(false)
 
+    // header
     const header = {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     }
+
+    useEffect(() => {
+        // Fetch Logged User
+        const loggedUser = async () => {
+            try {
+                const response = await axios.get(`${apiURL}auth/me`, header)
+                setUser(response.data.user)
+                console.log(response.data.user)
+            } catch (error) {
+                if (error)
+                    console.log(error.response)
+            }
+        }
+
+        loggedUser()
+    }, [])
 
     // Logout
     const doLogout = async () => {
@@ -45,10 +63,12 @@ const SideMenu = ({ editdialog }) => {
             <div className="header">
                 <div className="d-flex">
                     <div className="img-box rounded-circle">
-                        <img src={ProfileImg} className="img-fluid" alt="..." />
+                        {user.image ?
+                            <img src={user.image} className="img-fluid" alt="..." />
+                            : <img src={fakeImg} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content">
-                        <p>mamun</p>
+                        <p>{user.name}</p>
                         <small>MBBS</small>
                     </div>
                     <div className="ml-auto">
