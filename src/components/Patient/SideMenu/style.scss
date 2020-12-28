@@ -1,6 +1,6 @@
 @import "../../../App.scss";
 
-.side-menu {
+.patient-sidemenu {
     padding: 0;
     width: 100%;
     height: 100%;
@@ -74,7 +74,7 @@
 
         .is-Active {
             color: #fff;
-            background: $secondary-color;
+            background: $primary-color;
         }
     }
 

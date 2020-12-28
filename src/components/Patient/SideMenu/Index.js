@@ -14,7 +14,7 @@ import { apiURL } from '../../../utils/apiURL'
 import fakeImg from '../../../assets/Static/vector.jpg'
 import { ic_edit } from 'react-icons-kit/md'
 
-const Index = ({ editdialog }) => {
+const Index = () => {
     const history = useHistory()
     const [user, setUser] = useState({})
     const [isLoading, setLoading] = useState(false)
@@ -55,10 +55,8 @@ const Index = ({ editdialog }) => {
         }
     }
 
-
     return (
-        <div className="side-menu">
-
+        <div className="patient-sidemenu">
             {/* Header */}
             <div className="header">
                 <div className="d-flex">
@@ -67,15 +65,14 @@ const Index = ({ editdialog }) => {
                             <img src={user.image} className="img-fluid" alt="..." />
                             : <img src={fakeImg} className="img-fluid" alt="..." />}
                     </div>
-                    <div className="content">
+                    <div className="content pt-3">
                         <p>{user.name}</p>
-                        <small>MBBS</small>
                     </div>
                     <div className="ml-auto">
                         <button
                             type="button"
                             className="btn btn-light rounded-circle shadow-none"
-                            onClick={() => editdialog(true)}
+                        // onClick={() => editdialog(true)}
                         >
                             <Icon icon={ic_edit} size={20} />
                         </button>
@@ -89,7 +86,7 @@ const Index = ({ editdialog }) => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/doctor/">
+                    to="/patient/">
                     <Icon icon={ic_apps} size={20} />
                     <span>dashboard</span>
                 </NavLink>
@@ -97,7 +94,7 @@ const Index = ({ editdialog }) => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/doctor/requests">
+                    to="/patient/requests">
                     <Icon icon={ic_people} size={20} />
                     <span>appointment requests</span>
                 </NavLink>
@@ -105,7 +102,7 @@ const Index = ({ editdialog }) => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/doctor/appointments">
+                    to="/patient/appointments">
                     <Icon icon={ic_info_outline} size={20} />
                     <span>pending appointments</span>
                 </NavLink>
@@ -123,6 +120,6 @@ const Index = ({ editdialog }) => {
 
         </div>
     );
-};
+}
 
 export default Index;

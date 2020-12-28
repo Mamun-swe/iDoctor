@@ -18,7 +18,7 @@ import RegisterIndex from './pages/Auth/Register/Index'
 import ResetIndex from './pages/Auth/Reset/Index'
 
 import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
-import UserAccountMaster from './pages/Account/User/Master/Index'
+import PatientAccountMaster from './pages/Account/Patient/Master/Index'
 import PrivateRoute from './components/PrivateRoute/Index'
 
 import FourOFour from './pages/FourOFour/Index'
@@ -43,7 +43,7 @@ function App() {
             </PrivateRoute>
 
             <PrivateRoute path="/patient" role="patient">
-              <UserAccountMaster />
+              <PatientAccountMaster />
             </PrivateRoute>
 
             <Route path="*" component={FourOFour} />
