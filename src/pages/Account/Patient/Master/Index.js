@@ -6,6 +6,7 @@ import { ic_dehaze } from 'react-icons-kit/md'
 
 import SideMenu from '../../../../components/Patient/SideMenu/Index'
 import DashboardIndex from '../Dashboard/Index'
+import FourOFour from '../../../FourOFour/Index'
 
 const Master = () => {
     const [show, setShow] = useState(false)
@@ -44,6 +45,7 @@ const Master = () => {
                 <div className="main flex-fill">
                     <Switch>
                         <Route exact path="/patient/" component={DashboardIndex} />
+                        <Route path="*" component={FourOFour} />
                     </Switch>
                 </div>
             </div>

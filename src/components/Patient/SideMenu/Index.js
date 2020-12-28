@@ -5,14 +5,13 @@ import { Icon } from 'react-icons-kit'
 import {
     ic_apps,
     ic_people,
-    ic_info_outline,
+    ic_person,
     ic_lock
 } from 'react-icons-kit/md'
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
 
 import fakeImg from '../../../assets/Static/vector.jpg'
-import { ic_edit } from 'react-icons-kit/md'
 
 const Index = () => {
     const history = useHistory()
@@ -68,15 +67,6 @@ const Index = () => {
                     <div className="content pt-3">
                         <p>{user.name}</p>
                     </div>
-                    <div className="ml-auto">
-                        <button
-                            type="button"
-                            className="btn btn-light rounded-circle shadow-none"
-                        // onClick={() => editdialog(true)}
-                        >
-                            <Icon icon={ic_edit} size={20} />
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -87,25 +77,42 @@ const Index = () => {
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
                     to="/patient/">
-                    <Icon icon={ic_apps} size={20} />
-                    <span>dashboard</span>
+                    <div className="icon-box rounded-circle border">
+                        <div className="flex-center flex-column">
+                            <Icon icon={ic_apps} size={20} />
+                        </div>
+                    </div>
+                    <p>dashboard</p>
                 </NavLink>
-                <NavLink
-                    exact
-                    activeClassName="is-Active"
-                    className="btn btn-block shadow-none"
-                    to="/patient/requests">
-                    <Icon icon={ic_people} size={20} />
-                    <span>appointment requests</span>
-                </NavLink>
+
                 <NavLink
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
                     to="/patient/appointments">
-                    <Icon icon={ic_info_outline} size={20} />
-                    <span>pending appointments</span>
+
+                    <div className="icon-box rounded-circle border">
+                        <div className="flex-center flex-column">
+                            <Icon icon={ic_person} size={20} />
+                        </div>
+                    </div>
+                    <p>my profile</p>
                 </NavLink>
+
+                <NavLink
+                    exact
+                    activeClassName="is-Active"
+                    className="btn btn-block shadow-none"
+                    to="/patient/requests">
+
+                    <div className="icon-box rounded-circle border">
+                        <div className="flex-center flex-column">
+                            <Icon icon={ic_people} size={20} />
+                        </div>
+                    </div>
+                    <p>appointments</p>
+                </NavLink>
+
 
                 <button
                     type="button"
@@ -113,7 +120,11 @@ const Index = () => {
                     onClick={doLogout}
                     disabled={isLoading}
                 >
-                    <Icon icon={ic_lock} size={18} />
+                    <div className="icon-box rounded-circle border">
+                        <div className="flex-center flex-column">
+                            <Icon icon={ic_lock} size={18} />
+                        </div>
+                    </div>
                     {isLoading ? <span>Logging out...</span> : <span>logout</span>}
                 </button>
             </div>
