@@ -6,7 +6,7 @@ const Index = () => {
     return (
         <div className="four-o-four">
             <div className="flex-center flex-column text-center">
-                <img src={Images.FourOFour} className="img-fluid" />
+                <img src={Images.FourOFour} className="img-fluid" alt="..." />
                 <h5>You are following wrong way !!</h5>
             </div>
         </div>

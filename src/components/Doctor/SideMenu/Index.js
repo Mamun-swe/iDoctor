@@ -18,11 +18,9 @@ const Index = ({ editdialog }) => {
     const history = useHistory()
     const [user, setUser] = useState({})
     const [isLoading, setLoading] = useState(false)
-
-    // header
-    const header = {
+    const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-    }
+    })
 
     useEffect(() => {
         // Fetch Logged User
@@ -38,7 +36,7 @@ const Index = ({ editdialog }) => {
         }
 
         loggedUser()
-    }, [])
+    }, [header])
 
     // Logout
     const doLogout = async () => {
