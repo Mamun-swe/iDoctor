@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import '../style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import jwt_decode from 'jwt-decode'
-
-import Logo from '../../../assets/Static/logo.png'
+import { Images } from '../../../utils/Images'
 
 toast.configure({ autoClose: 2000 })
 const Login = () => {
@@ -37,10 +36,6 @@ const Login = () => {
     }
 
     const onSubmit = async (data) => {
-        // history.push('/doctor')
-        // 
-
-
         try {
             setLoading(true)
             const response = await axios.post(`${apiURL}auth/login`, data)
@@ -63,7 +58,7 @@ const Login = () => {
 
                 <div className="text-center logo-box">
                     <Link to="/">
-                        <img src={Logo} className="img-fluid" alt="..." />
+                        <img src={Images.Logo} className="img-fluid" alt="..." />
                     </Link>
                 </div>
 

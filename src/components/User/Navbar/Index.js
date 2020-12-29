@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.scss'
 import { Icon } from 'react-icons-kit'
 import { Link, NavLink } from 'react-router-dom'
 import { ic_menu, ic_close } from 'react-icons-kit/md'
-
-import Logo from '../../../assets/Static/logo.png'
+import { Images } from '../../../utils/Images'
 
 const Index = () => {
     const [isShow, setShow] = useState(false)
+    const [token, setToken] = useState()
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            setToken(localStorage.getItem('token'))
+        }
+    }, [])
 
     return (
         <div className="custom-navbar">
@@ -19,7 +25,7 @@ const Index = () => {
                                 {/* Logo */}
                                 <div className="logo">
                                     <Link to="/">
-                                        <img src={Logo} className="img-fluid" alt="..." />
+                                        <img src={Images.Logo} className="img-fluid" alt="..." />
                                     </Link>
                                 </div>
 
@@ -52,7 +58,9 @@ const Index = () => {
                                             <li><NavLink activeClassName="is-Active" exact to="/">home</NavLink></li>
                                             <li><NavLink activeClassName="is-Active" exact to="/about-us">about</NavLink></li>
                                             <li><NavLink activeClassName="is-Active" exact to="/contact-us">contact</NavLink></li>
-                                            <li><NavLink activeClassName="is-Active" exact to="/login">login</NavLink></li>
+                                            {token ?
+                                                <li><NavLink activeClassName="is-Active" exact to="/login">profile</NavLink></li>
+                                                : <li><NavLink activeClassName="is-Active" exact to="/login">login</NavLink></li>}
                                         </ul>
                                     </div>
                                 </div>

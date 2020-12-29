@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './style.scss'
 import { NavLink, useHistory } from 'react-router-dom'
 import { Icon } from 'react-icons-kit'
 import {
+    ic_home,
     ic_apps,
     ic_people,
     ic_person,
@@ -10,32 +11,15 @@ import {
 } from 'react-icons-kit/md'
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
+import { Images } from '../../../utils/Images'
 
-import fakeImg from '../../../assets/Static/vector.jpg'
-
-const Index = () => {
+const Index = ({ user }) => {
     const history = useHistory()
-    const [user, setUser] = useState({})
+
     const [isLoading, setLoading] = useState(false)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
-
-    useEffect(() => {
-        // Fetch Logged User
-        const loggedUser = async () => {
-            try {
-                const response = await axios.get(`${apiURL}auth/me`, header)
-                setUser(response.data.user)
-                console.log(response.data.user)
-            } catch (error) {
-                if (error)
-                    console.log(error.response)
-            }
-        }
-
-        loggedUser()
-    }, [header])
 
     // Logout
     const doLogout = async () => {
@@ -60,7 +44,7 @@ const Index = () => {
                     <div className="img-box rounded-circle">
                         {user.image ?
                             <img src={user.image} className="img-fluid" alt="..." />
-                            : <img src={fakeImg} className="img-fluid" alt="..." />}
+                            : <img src={Images.FakeUser} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content pt-3">
                         <p>{user.name}</p>
@@ -70,6 +54,18 @@ const Index = () => {
 
             {/* Body */}
             <div className="body">
+                <NavLink
+                    exact
+                    activeClassName="is-Active"
+                    className="btn btn-block shadow-none"
+                    to="/">
+                    <div className="icon-box rounded-circle border">
+                        <div className="flex-center flex-column">
+                            <Icon icon={ic_home} size={20} />
+                        </div>
+                    </div>
+                    <p>home</p>
+                </NavLink>
                 <NavLink
                     exact
                     activeClassName="is-Active"
@@ -87,7 +83,7 @@ const Index = () => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/patient/appointments">
+                    to="/patient/profile">
 
                     <div className="icon-box rounded-circle border">
                         <div className="flex-center flex-column">
