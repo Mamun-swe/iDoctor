@@ -21,6 +21,8 @@ import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
 import PatientAccountMaster from './pages/Account/Patient/Master/Index'
 import PrivateRoute from './components/PrivateRoute/Index'
 
+import ChatIndex from './pages/Account/Council/Chat/Index'
+
 import FourOFour from './pages/FourOFour/Index'
 
 function App() {
@@ -38,13 +40,20 @@ function App() {
             <Route exact path="/register" component={RegisterIndex} />
             <Route exact path="/reset" component={ResetIndex} />
 
+            {/* Doctor Master */}
             <PrivateRoute path="/doctor" role="doctor">
               <DoctorAccountMaster />
             </PrivateRoute>
 
+            {/* Patient Master */}
             <PrivateRoute path="/patient" role="patient">
               <PatientAccountMaster />
             </PrivateRoute>
+
+            {/* Council Master */}
+            <Route exact path="/council/messages/:reciverId">
+              <ChatIndex />
+            </Route>
 
             <Route path="*" component={FourOFour} />
 

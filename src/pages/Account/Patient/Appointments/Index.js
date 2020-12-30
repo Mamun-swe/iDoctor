@@ -5,7 +5,7 @@ const Index = () => {
 
     // Open chat window
     const openChatWindow = () => {
-        window.open(`/patient/council/messages/${123}`, "", "top=0, left=0")
+        window.open(`/council/messages/${123}`, "", "top=0, left=0")
     }
 
     return (

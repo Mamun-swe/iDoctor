@@ -48,8 +48,10 @@ const Index = ({ editdialog }) => {
                 history.push('/')
             }
         } catch (error) {
-            if (error)
-                console.log(error.response)
+            if (error) {
+                localStorage.clear()
+                history.push('/')
+            }
         }
     }
 
