@@ -5,22 +5,23 @@ import { Images } from '../../../../utils/Images'
 
 const Index = ({ user }) => {
     const { register, handleSubmit, errors } = useForm()
-    const [selectedFile, setSelectedFile] = useState(null)
     const [previewURL, setPreviewURL] = useState(null)
+    const [isLoading, setLoading] = useState(false)
     const [isUpload, setUpload] = useState(false)
 
     // Image onChange
     const imageChangeHandeller = event => {
         let file = event.target.files[0]
         if (file) {
-            setSelectedFile(file)
             setPreviewURL(URL.createObjectURL(event.target.files[0]))
             setUpload(true)
+            console.log(file)
         }
     }
 
     const onSubmit = async (data) => {
         console.log(data)
+        setLoading(true)
     }
 
     return (
@@ -171,7 +172,10 @@ const Index = ({ user }) => {
                                             <button
                                                 type="submit"
                                                 className="btn shadow-none"
-                                            >Update</button>
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading ? <span>Updating ...</span> : <span>Update</span>}
+                                            </button>
                                         </div>
                                     </div>
 

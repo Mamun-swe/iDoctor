@@ -97,7 +97,7 @@ const Index = ({ user }) => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/patient/requests">
+                    to="/patient/appointments">
 
                     <div className="icon-box rounded-circle border">
                         <div className="flex-center flex-column">

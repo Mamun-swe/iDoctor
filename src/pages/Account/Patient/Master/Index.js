@@ -9,6 +9,8 @@ import { apiURL } from '../../../../utils/apiURL'
 import SideMenu from '../../../../components/Patient/SideMenu/Index'
 import DashboardIndex from '../Dashboard/Index'
 import ProfileIndex from '../Profile/Index'
+import AppointmentIndex from '../Appointments/Index'
+import ChatIndex from '../Council/Chat/Index'
 import FourOFour from '../../../FourOFour/Index'
 
 const Master = () => {
@@ -68,6 +70,10 @@ const Master = () => {
                         <Route exact path="/patient/" component={DashboardIndex} />
                         <Route exact path="/patient/profile">
                             <ProfileIndex user={user} />
+                        </Route>
+                        <Route exact path="/patient/appointments" component={AppointmentIndex} />
+                        <Route exact path="/patient/council/messages/:id">
+                            <ChatIndex user={user} />
                         </Route>
                         <Route path="*" component={FourOFour} />
                     </Switch>
