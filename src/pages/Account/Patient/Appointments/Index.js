@@ -1,11 +1,12 @@
 import React from 'react'
 import './style.scss'
+import { useHistory } from 'react-router-dom'
 
 const Index = () => {
-
+    const history = useHistory()
     // Open chat window
     const openChatWindow = () => {
-        window.open(`/council/messages/${123}`, "", "top=0, left=0")
+        history.push(`/messages/${123}`)
     }
 
     return (

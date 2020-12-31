@@ -21,7 +21,7 @@ import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
 import PatientAccountMaster from './pages/Account/Patient/Master/Index'
 import PrivateRoute from './components/PrivateRoute/Index'
 
-import ChatIndex from './pages/Account/Council/Chat/Index'
+import ChatIndex from './pages/Chat/Index'
 
 import FourOFour from './pages/FourOFour/Index'
 
@@ -51,7 +51,7 @@ function App() {
             </PrivateRoute>
 
             {/* Council Master */}
-            <Route exact path="/council/messages/:reciverId">
+            <Route exact path="/messages/:reciverId">
               <ChatIndex />
             </Route>
 

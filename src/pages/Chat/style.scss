@@ -1,4 +1,4 @@
-@import "../../../../App.scss";
+@import "../../App.scss";
 
 .chat-room {
     width: 100%;
@@ -27,9 +27,6 @@
         .message-menu {
             overflow-y: auto;
             padding: 5px;
-            padding-bottom: 54px;
-            border-left: 1px solid #dfdfdf;
-            border-right: 1px solid #dfdfdf;
 
             // Send Container
             .send-container {
@@ -37,7 +34,7 @@
                 bottom: 0;
                 z-index: 99;
                 left: 5px;
-                right: 20px;
+                right: 5px;
                 background: #fff;
 
                 .form-control {
@@ -46,8 +43,31 @@
                     font-family: 'Roboto', sans-serif;
                 }
 
-                .form-control:focus {
-                    border: 1px solid #dfdfdf;
+                .error-border {
+                    border: 1px solid red;
+                }
+
+                .btn {
+                    padding: 5px;
+                    background: #dfdfdf;
+                }
+
+                .btn:hover {
+                    background: #c4c3c3;
+                }
+
+                .file-upload {
+                    position: relative;
+
+                    .upload {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 60px;
+                        cursor: pointer;
+                        opacity: 0;
+                    }
                 }
 
                 @media (min-width: 992px) {
@@ -63,6 +83,13 @@
                 width: 100%;
                 overflow-y: auto;
                 height: 100vh;
+                padding-bottom: 115px;
+            }
+
+            @media (min-width: 992px) {
+                padding-bottom: 54px;
+                border-left: 1px solid #dfdfdf;
+                border-right: 1px solid #dfdfdf;
             }
         }
 

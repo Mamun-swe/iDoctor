@@ -3,8 +3,15 @@ import './style.scss'
 import { Images } from '../../../utils/Images'
 import Icon from 'react-icons-kit'
 import { ic_close } from 'react-icons-kit/md'
+import { useHistory } from 'react-router-dom'
 
 const Index = ({ sender, reciver }) => {
+    const history = useHistory()
+
+    const closeChat = () => {
+        history.push('/')
+    }
+
     return (
         <div className="chat-header shadow-sm">
             <div className="row">
@@ -32,7 +39,7 @@ const Index = ({ sender, reciver }) => {
                             <button
                                 type="button"
                                 className="btn rounded-circle shadow-none"
-                                onClick={() => window.close()}
+                                onClick={closeChat}
                             >
                                 <Icon icon={ic_close} size={25} />
                             </button>
