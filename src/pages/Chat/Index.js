@@ -1,23 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.scss'
 import Icon from 'react-icons-kit'
 import { ic_near_me, ic_add } from 'react-icons-kit/md'
 import { useForm } from 'react-hook-form'
+import jwt_decode from 'jwt-decode'
+import { useParams } from 'react-router-dom'
 
 import Header from '../../components/Chat/Header/Index'
 import LeftMenu from '../../components/Chat/LeftMenu/Index'
 import RightMenu from '../../components/Chat/RightMenu/Index'
+import ConversationMessages from '../../components/Chat/Messages/Index'
 
 const Index = () => {
     const { register, handleSubmit, errors } = useForm()
+    const { reciverId } = useParams()
+    const [senderId, setSenderId] = useState(null)
     const [myFiles, setMyFiles] = useState([])
+    const [recivedFiles] = useState([1, 2, 3, 4, 5, 6])
+    const [messages, setMessages] = useState([])
 
-    // Mesage Submit 
-    const onSubmit = async (data) => {
-        console.log(data)
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        const user = jwt_decode(token)
+        setSenderId(user.id)
+    }, [reciverId])
+
+    // Message Submit 
+    const onSubmit = async (data, event) => {
+        const newMessage = {
+            sender: senderId,
+            reciver: reciverId,
+            message: data.message
+        }
+        setMessages((exMessage) => [...exMessage, newMessage])
+
+        const newMessage2 = {
+            sender: reciverId,
+            reciver: senderId,
+            message: data.message
+        }
+        setMessages((exMessage) => [...exMessage, newMessage2])
+        event.target.reset()
     }
 
-    // File Upload handle
+    // File Upload
     const fileUploadHandle = (event) => {
         const file = event.target.files[0]
         if (file) {
@@ -35,7 +61,7 @@ const Index = () => {
 
                 {/* Left Menu */}
                 <div className="left-menu d-none d-lg-block">
-                    <LeftMenu />
+                    <LeftMenu files={recivedFiles} />
                 </div>
 
                 {/* Message Menu */}
@@ -43,40 +69,10 @@ const Index = () => {
 
                     {/* Messages */}
                     <div className="messages">
-                        <h4>message 1</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message</h4>
-                        <h4>message last</h4>
+                        <ConversationMessages
+                            sender={senderId}
+                            messages={messages}
+                        />
                     </div>
 
                     {/* Message Send Container */}
