@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './style.scss'
 import { NavLink, useHistory } from 'react-router-dom'
 import { Icon } from 'react-icons-kit'
@@ -14,29 +14,12 @@ import { apiURL } from '../../../utils/apiURL'
 import fakeImg from '../../../assets/Static/vector.jpg'
 import { ic_edit } from 'react-icons-kit/md'
 
-const Index = ({ editdialog }) => {
+const Index = ({ doctor, editdialog }) => {
     const history = useHistory()
-    const [user, setUser] = useState({})
     const [isLoading, setLoading] = useState(false)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
-
-    useEffect(() => {
-        // Fetch Logged User
-        const loggedUser = async () => {
-            try {
-                const response = await axios.get(`${apiURL}auth/me`, header)
-                setUser(response.data.user)
-                console.log(response.data.user)
-            } catch (error) {
-                if (error)
-                    console.log(error.response)
-            }
-        }
-
-        loggedUser()
-    }, [header])
 
     // Logout
     const doLogout = async () => {
@@ -55,7 +38,6 @@ const Index = ({ editdialog }) => {
         }
     }
 
-
     return (
         <div className="side-menu">
 
@@ -63,12 +45,12 @@ const Index = ({ editdialog }) => {
             <div className="header">
                 <div className="d-flex">
                     <div className="img-box rounded-circle">
-                        {user.image ?
-                            <img src={user.image} className="img-fluid" alt="..." />
+                        {doctor.image ?
+                            <img src={doctor.image} className="img-fluid" alt="..." />
                             : <img src={fakeImg} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content">
-                        <p>{user.name}</p>
+                        <p>{doctor.email}</p>
                         <small>MBBS</small>
                     </div>
                     <div className="ml-auto">

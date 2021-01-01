@@ -3,14 +3,14 @@ const { Schema, model } = require("mongoose")
 const validateEmail = function (email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email)
-};
+}
 
-const userSchema = new Schema({
+const patientSchema = new Schema({
     name: {
         type: String,
-        required: true,
         trim: true,
-        maxlength: 50
+        maxlength: 50,
+        default: null
     },
     email: {
         type: String,
@@ -23,21 +23,22 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "patient",
-        enum: ["doctor", "patient", "admin"]
+        enum: ["patient"]
     },
     status: {
         type: String,
         default: "offline",
         enum: ["online", "offline"]
     },
-    image: {
-        type: String,
-        default: null
-    },
     password: {
         type: String,
         trim: true,
         required: true
+    },
+    image: {
+        type: String,
+        trim: true,
+        default: null
     },
     access_token: {
         type: String,
@@ -48,6 +49,6 @@ const userSchema = new Schema({
     timestamps: true
 })
 
-const User = model('User', userSchema)
+const Patient = model('Patient', patientSchema)
 
-module.exports = User;
+module.exports = Patient;

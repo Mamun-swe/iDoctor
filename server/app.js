@@ -15,15 +15,12 @@ app.use(fileUpload())
 app.use('/uploads/images', express.static('uploads/images/'))
 
 // Main Routes
-// const doctorRoute = require("./api/routes/doctor")
-// const patientRoute = require("./api/routes/patient")
 const authRoute = require('./api/routes/auth')
+const doctorRoute = require('./api/routes/doctor')
 
 // API URL's
 app.use('/api/auth', authRoute)
-// app.use("/api/doctor", doctorRoute)
-// app.use("/api/patient", patientRoute)
-
+app.use('/api/doctor', doctorRoute)
 
 app.use((req, res, next) => {
     let error = new Error('404 page Not Found')

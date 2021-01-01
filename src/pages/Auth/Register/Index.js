@@ -1,25 +1,33 @@
+
 import React, { useState } from 'react'
 import '../style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
-import { useForm } from "react-hook-form"
+import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-import Logo from '../../../assets/Static/logo.png'
+import { Images } from '../../../utils/Images'
+import Icon from 'react-icons-kit'
+import { ic_done } from 'react-icons-kit/md'
 
 toast.configure({ autoClose: 2000 })
-const Register = () => {
+const Index = () => {
     const history = useHistory()
     const { register, handleSubmit, errors } = useForm()
+    const [accountType, setAccountType] = useState("patient")
     const [isLoading, setLoading] = useState(false)
 
     const onSubmit = async (data) => {
-        // history.push('/login')
         try {
+            const newData = {
+                role: accountType,
+                email: data.email,
+                password: data.password
+            }
+
             setLoading(true)
-            const response = await axios.post(`${apiURL}auth/register`, data)
+            const response = await axios.post(`${apiURL}auth/register`, newData)
             if (response.status === 201) {
                 toast.success(response.data.message)
                 setLoading(false)
@@ -38,58 +46,56 @@ const Register = () => {
         }
     }
 
-
     return (
-        <div className="Auth">
+        <div className="login">
             <div className="flex-center flex-column">
-
-                <div className="text-center logo-box">
-                    <Link to="/">
-                        <img src={Logo} className="img-fluid" alt="..." />
-                    </Link>
-                </div>
-
-                <div className="card shadow border-0">
-                    <div className="card-header text-center bg-white">
-                        <h4 className="mb-0">Create Account</h4>
+                <div className="card shadow border-0 rounded-0">
+                    <div className="card-header text-center bg-white border-0">
+                        <h5 className="mb-0">Choose account type</h5>
                     </div>
                     <div className="card-body">
-                        <form onSubmit={handleSubmit(onSubmit)}>
 
-                            {/* Name */}
-                            <div className="form-group mb-3">
-                                {errors.name && errors.name.message ? (
-                                    <small className="text-danger">{errors.name && errors.name.message}</small>
-                                ) : <small>Name</small>
-                                }
-
-                                <input
-                                    type="text"
-                                    name="name"
-                                    className="form-control shadow-none"
-                                    placeholder="Your name"
-                                    ref={register({
-                                        required: "Name is required",
-                                        minLength: {
-                                            value: 5,
-                                            message: "Minimun length 5 character"
-                                        }
-                                    })}
-                                />
+                        {/* Account type container */}
+                        <div className="account-type-container d-flex">
+                            <div className="flex-fill p-2">
+                                <div className={accountType === "patient" ? "active account p-2" : "account p-2"}
+                                    onClick={() => setAccountType("patient")}
+                                >
+                                    <img src={Images.PatientVector} className="img-fluid" alt="..." />
+                                    <p>Patient</p>
+                                    {accountType === "patient" ? <Icon icon={ic_done} size={26} className="done-icon shadow" /> : null}
+                                </div>
                             </div>
+                            <div className="flex-fill p-2">
+                                <div className={accountType === "doctor" ? "active account p-2" : "account p-2"}
+                                    onClick={() => setAccountType("doctor")}
+                                >
+                                    <img src={Images.DoctorVector} className="img-fluid" alt="..." />
+                                    <p>Doctor</p>
+                                    {accountType === "doctor" ? <Icon icon={ic_done} size={26} className="done-icon shadow" /> : null}
+                                </div>
+                            </div>
+                        </div>
 
+                        {/* Account type message */}
+                        <div className="account-type-message text-center px-2 px-sm-3 pb-2">
+                            <h6 className="mb-1 text-muted text-capitalize">Hello {accountType}!</h6>
+                            <h6 className="mb-0 text-muted">Please fill out the form below to get started</h6>
+                        </div>
+
+                        {/* Form */}
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             {/* E-mail */}
-                            <div className="form-group mb-3">
+                            <div className="form-group mb-2">
                                 {errors.email && errors.email.message ? (
                                     <small className="text-danger">{errors.email && errors.email.message}</small>
                                 ) : <small>E-mail</small>
                                 }
-
                                 <input
                                     type="text"
                                     name="email"
-                                    className="form-control shadow-none"
-                                    placeholder="example@gmail.com"
+                                    className={errors.email ? "form-control shadow-none danger-border" : "form-control shadow-none"}
+                                    placeholder="E-mail"
                                     ref={register({
                                         required: "E-mail is required",
                                         pattern: {
@@ -100,37 +106,17 @@ const Register = () => {
                                 />
                             </div>
 
-                            {/* Account type */}
-                            <div className="form-group mb-3">
-                                {errors.role && errors.role.message ? (
-                                    <small className="text-danger">{errors.role && errors.role.message}</small>
-                                ) : <small>Account type</small>
-                                }
-
-                                <select
-                                    name="role"
-                                    className="form-control shadow-none pl-1"
-                                    ref={register({
-                                        required: "Account type is required"
-                                    })}
-                                >
-                                    <option value="patient">Patient</option>
-                                    <option value="doctor">Doctor</option>
-                                </select>
-                            </div>
-
                             {/* Password */}
                             <div className="form-group mb-3">
                                 {errors.password && errors.password.message ? (
                                     <small className="text-danger">{errors.password && errors.password.message}</small>
                                 ) : <small>Password</small>
                                 }
-
                                 <input
                                     type="password"
                                     name="password"
-                                    className="form-control shadow-none"
-                                    placeholder="*****"
+                                    className={errors.password ? "form-control shadow-none danger-border" : "form-control shadow-none"}
+                                    placeholder="Password"
                                     ref={register({
                                         required: "Please enter password",
                                         minLength: {
@@ -141,19 +127,19 @@ const Register = () => {
                                 />
                             </div>
 
-                            <button
-                                type="submit"
-                                className="btn btn-block shadow-none"
-                                disabled={isLoading}
-                            >
-                                {isLoading ? <span>Loading...</span> : <span>Submit</span>}
-                            </button>
+                            <div className="d-flex">
+                                <div className="pt-2">
+                                    <p className="text-muted">Have an account? <Link to="/login">Login</Link></p>
+                                </div>
+                                <div className="ml-auto">
+                                    <button type="submit" className="btn shadow-none" disabled={isLoading}>
+                                        {isLoading ? <span>Loading...</span> : <span>Register</span>}
+                                    </button>
+                                </div>
+                            </div>
 
                         </form>
 
-                        <div className="text-right mt-1">
-                            <p>Already have an account ? <Link to="/login">Login</Link></p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -161,4 +147,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Index;

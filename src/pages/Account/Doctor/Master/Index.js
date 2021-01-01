@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.scss'
+import axios from 'axios'
+import { apiURL } from '../../../../utils/apiURL'
 import { Switch, Route } from 'react-router-dom'
 import Icon from 'react-icons-kit'
 import { ic_dehaze } from 'react-icons-kit/md'
@@ -13,11 +15,42 @@ import AppointmentsIndex from '../PendingAppointments/Index'
 
 const Master = () => {
     const [show, setShow] = useState(false)
+    const [doctor, setDoctor] = useState({})
     const [isDaialog, setDaialog] = useState(false)
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
+
+    useEffect(() => {
+        // Fetch Logged User
+        const loggedDoctor = async () => {
+            try {
+                const response = await axios.get(`${apiURL}doctor/me`, header)
+                if (response.status === 200) {
+                    setDoctor(response.data.doctor)
+                    console.log(response.data.doctor)
+                }
+            } catch (error) {
+                if (error)
+                    console.log(error.response)
+            }
+        }
+
+        loggedDoctor()
+    }, [header])
 
     // Handle Edit
     const handleProfileEdit = data => {
         setDaialog(data)
+    }
+
+
+    if (!doctor.email) {
+        return (
+            <div>
+                <p>Please Update all information</p>
+            </div>
+        )
     }
 
     return (
@@ -46,7 +79,7 @@ const Master = () => {
                         onClick={() => setShow(false)}
                     ></div>
                     <div className={show ? "main-sidebar open-main-sidebar" : "main-sidebar"}>
-                        <SideMenuComponent editdialog={handleProfileEdit} />
+                        <SideMenuComponent editdialog={handleProfileEdit} doctor={doctor} />
                     </div>
                 </div>
 
