@@ -25,21 +25,6 @@ const doctorSchema = new Schema({
         default: "doctor",
         enum: ["doctor"]
     },
-    status: {
-        type: String,
-        default: "offline",
-        enum: ["online", "offline"]
-    },
-    isApproved: {
-        type: String,
-        enum: ["approved", "pending", "submitted", "canceled"],
-        default: "pending"
-    },
-    updateRange: {
-        type: Number,
-        enum: [5, 10, 20, 20, 25, 20],
-        default: 5
-    },
     password: {
         type: String,
         trim: true,
@@ -104,6 +89,26 @@ const doctorSchema = new Schema({
         type: String,
         trim: true,
         default: null
+    },
+    status: {
+        type: String,
+        default: "offline",
+        enum: ["online", "offline"]
+    },
+    isApproved: {
+        type: String,
+        enum: ["approved", "pending", "submitted", "canceled"],
+        default: "pending"
+    },
+    updateRange: {
+        type: Number,
+        enum: [5, 10, 20, 20, 25, 20],
+        default: 5
+    },
+    updateStep: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5],
+        default: 1
     }
 }, {
     timestamps: true

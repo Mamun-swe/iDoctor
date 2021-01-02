@@ -12,11 +12,18 @@ import DashboardIndex from '../Dashboard/Index'
 import RequestsIndex from '../AppointmentRequest/Index'
 import AppointmentsIndex from '../PendingAppointments/Index'
 
+import StepOne from '../../../../components/Doctor/ProfileUpdateSteps/StepOne'
+import StepTwo from '../../../../components/Doctor/ProfileUpdateSteps/StepTwo'
+import StepThree from '../../../../components/Doctor/ProfileUpdateSteps/StepThree'
+import StepFour from '../../../../components/Doctor/ProfileUpdateSteps/StepFour'
+import StepFive from '../../../../components/Doctor/ProfileUpdateSteps/StepFive'
+
 
 const Master = () => {
     const [show, setShow] = useState(false)
     const [doctor, setDoctor] = useState({})
     const [isDaialog, setDaialog] = useState(false)
+    const [step, setStep] = useState(null)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -28,6 +35,7 @@ const Master = () => {
                 const response = await axios.get(`${apiURL}doctor/me`, header)
                 if (response.status === 200) {
                     setDoctor(response.data.doctor)
+                    setStep(response.data.doctor.updateStep)
                     console.log(response.data.doctor)
                 }
             } catch (error) {
@@ -44,6 +52,11 @@ const Master = () => {
         setDaialog(data)
     }
 
+    // Update Response 
+    const updateResponse = responseStep => {
+        setStep(responseStep)
+    }
+
 
     if (doctor.isApproved === "pending") {
         return (
@@ -54,7 +67,35 @@ const Master = () => {
                             <h5 className="mb-0">Hello doctor !</h5>
                             <p className="mb-0">Your account has been deactivated, fill all field & submit to active.</p>
                         </div>
-                        <div className="card-body p-4"></div>
+                        <div className="card-body p-4">
+
+                            {/* Progress */}
+                            <small>Profile updated</small>
+                            <div className="progress mb-3">
+                                <div
+                                    className="progress-bar"
+                                    role="progressbar"
+                                    style={{ width: doctor.updateRange + '%' }}
+                                    aria-valuenow={doctor.updateRange}
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                >{doctor.updateRange}%</div>
+                            </div>
+
+                            {/* Update Steps */}
+                            {step === 1 ?
+                                <StepOne responsestep={updateResponse} />
+                                : step === 2 ?
+                                    <StepTwo />
+                                    : step === 3 ?
+                                        <StepThree />
+                                        : step === 4 ?
+                                            <StepFour />
+                                            : step === 5 ?
+                                                <StepFive />
+                                                : null}
+
+                        </div>
                     </div>
                 </div>
             </div>
