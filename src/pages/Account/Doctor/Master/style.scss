@@ -1,5 +1,34 @@
 @import "../../../../App.scss";
 
+// Profile update page
+.update-page {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    .card {
+        width: 93vw;
+        .card-header {
+            h5 {
+                font-weight: 500;
+                font-family: "Roboto", sans-serif;
+            }
+            p {
+                color: #555;
+                font-size: 15px;
+                font-family: "Roboto", sans-serif;
+            }
+        }
+
+        @media (min-width: 576px) {
+            width: 550px;
+        }
+
+        @media (min-width: 768px) {
+            width: 650px;
+        }
+    }
+}
+
 .master {
     // Mobile Navabr
     .mobile-navbar {

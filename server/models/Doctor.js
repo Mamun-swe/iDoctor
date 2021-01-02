@@ -31,9 +31,14 @@ const doctorSchema = new Schema({
         enum: ["online", "offline"]
     },
     isApproved: {
-        type: Boolean,
-        enum: [true, false],
-        default: false
+        type: String,
+        enum: ["approved", "pending", "submitted", "canceled"],
+        default: "pending"
+    },
+    updateRange: {
+        type: Number,
+        enum: [5, 10, 20, 20, 25, 20],
+        default: 5
     },
     password: {
         type: String,

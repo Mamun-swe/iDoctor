@@ -45,10 +45,18 @@ const Master = () => {
     }
 
 
-    if (!doctor.email) {
+    if (doctor.isApproved === "pending") {
         return (
-            <div>
-                <p>Please Update all information</p>
+            <div className="update-page">
+                <div className="flex-center flex-column">
+                    <div className="card rounded-0 border-0 shadow">
+                        <div className="card-header bg-white p-4">
+                            <h5 className="mb-0">Hello doctor !</h5>
+                            <p className="mb-0">Your account has been deactivated, fill all field & submit to active.</p>
+                        </div>
+                        <div className="card-body p-4"></div>
+                    </div>
+                </div>
             </div>
         )
     }
