@@ -27,17 +27,22 @@ const StepOne = ({ responsestep, id }) => {
         }
 
         try {
-            // setLoading(true)
+            setLoading(true)
             let formData = new FormData()
             formData.append('name', data.name)
             formData.append('image', selectedFile)
 
             const response = await axios.post(`${apiURL}doctor/profile/${id}/update`, formData)
-            console.log(response)
-            responsestep(2)
+            if (response.status === 200) {
+                setLoading(false)
+                responsestep(2)
+            }
 
         } catch (error) {
-            if (error) console.log(error.response)
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
         }
     }
 

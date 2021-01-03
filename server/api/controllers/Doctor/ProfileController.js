@@ -40,7 +40,7 @@ const updateProfile = async (req, res, next) => {
     try {
         let filename
         const { id } = req.params
-        const { name } = req.body
+        const { name, college, passingYear, specialist, currentHospital } = req.body
 
 
         await CheckId(id)
@@ -55,13 +55,40 @@ const updateProfile = async (req, res, next) => {
         }
 
         if (req.files) {
-            filename = Upload.fileUpload(name, req.files.image, './uploads/doctor/profiles/')
+            filename = Upload.fileUpload(req.files.image, './uploads/doctor/profiles/')
 
             const updateData = {
                 name: name,
                 image: filename,
                 updateRange: 40,
                 updateStep: 2
+            }
+
+            // Update doctor
+            const updateDoctor = await doctor.updateOne(
+                { $set: updateData },
+                { new: true }
+            ).exec()
+
+            if (!updateDoctor) {
+                return res.status(501).json({
+                    message: 'Update error'
+                })
+            }
+
+            return res.status(200).json({
+                status: true,
+                message: 'Successfully step one complete.'
+            })
+        } else if (college && passingYear && specialist && currentHospital) {
+
+            const updateData = {
+                college: college,
+                passingYear: passingYear,
+                specialist: specialist,
+                currentHospital: currentHospital,
+                updateRange: 60,
+                updateStep: 3
             }
 
             // Update doctor

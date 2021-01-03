@@ -30,23 +30,23 @@ const Master = () => {
     })
 
     useEffect(() => {
-        // Fetch Logged User
-        const loggedDoctor = async () => {
-            try {
-                const response = await axios.get(`${apiURL}doctor/me`, header)
-                if (response.status === 200) {
-                    setDoctor(response.data.doctor)
-                    setStep(response.data.doctor.updateStep)
-                    console.log(response.data.doctor)
-                }
-            } catch (error) {
-                if (error)
-                    console.log(error.response)
-            }
-        }
-
         loggedDoctor()
     }, [id, header])
+
+    // Fetch Logged User
+    const loggedDoctor = async () => {
+        try {
+            const response = await axios.get(`${apiURL}doctor/me`, header)
+            if (response.status === 200) {
+                setDoctor(response.data.doctor)
+                setStep(response.data.doctor.updateStep)
+                console.log(response.data.doctor)
+            }
+        } catch (error) {
+            if (error)
+                console.log(error.response)
+        }
+    }
 
     // Handle Edit
     const handleProfileEdit = data => {
@@ -55,6 +55,7 @@ const Master = () => {
 
     // Update Response 
     const updateResponse = responseStep => {
+        loggedDoctor()
         setStep(responseStep)
     }
 
@@ -84,15 +85,15 @@ const Master = () => {
                             </div>
 
                             {/* Update Steps */}
-                            {step === 20 ?
+                            {step === 1 ?
                                 <StepOne responsestep={updateResponse} id={id} />
-                                : step === 40 ?
-                                    <StepTwo />
-                                    : step === 60 ?
+                                : step === 2 ?
+                                    <StepTwo responsestep={updateResponse} id={id} />
+                                    : step === 3 ?
                                         <StepThree />
-                                        : step === 80 ?
+                                        : step === 4 ?
                                             <StepFour />
-                                            : step === 100 ?
+                                            : step === 5 ?
                                                 <StepFive />
                                                 : null}
 
