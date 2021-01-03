@@ -1,6 +1,7 @@
 const Doctor = require('../../../models/Doctor')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
+const CheckId = require('../../middleware/CheckId')
 
 // Me
 const Me = async (req, res, next) => {
@@ -32,48 +33,54 @@ const Me = async (req, res, next) => {
 }
 
 
-const fileUpload = file => {
-    // Get file extension from filename
-    const extension = file.name.split('.')[1]
-    // Rename file with datetime format
-    const filename = Date.now() + '.' + extension
-    // Upload path
-    path = './uploads/doctor/profiles' + filename
-    // Move file to path
-    const moveFile = file.mv(path)
 
-    if (!moveFile) {
-        return res.status(501).json({ message: 'file upload error' })
-    }
-
-    return filename
-}
 
 // Update Profile
 const updateProfile = async (req, res, next) => {
     try {
         let filename
+        const { id } = req.params
         const { name } = req.body
 
-        if (name && req.files) {
-            filename = await fileUpload(req.files.image)
 
-            // const updateData = {
-            //     name: name,
-            //     image: filename
-            // }
+        await CheckId(id)
 
-            // // Update doctor
-            // const updateDoctor = await book.updateOne(
-            //     { $set: updateData },
-            //     { new: true }
-            // ).exec()
+        // Find Profile
+        const doctor = await Doctor.findById({ _id: id }).exec()
+        if (!doctor) {
+            return res.status(404).json({
+                status: false,
+                message: 'Doctor not found'
+            })
         }
 
-        return res.status(200).json({
-            message: 'success'
-        })
+        if (req.files) {
+            filename = Upload.fileUpload(name, req.files.image, './uploads/doctor/profiles/')
 
+            const updateData = {
+                name: name,
+                image: filename,
+                updateRange: 40,
+                updateStep: 2
+            }
+
+            // Update doctor
+            const updateDoctor = await doctor.updateOne(
+                { $set: updateData },
+                { new: true }
+            ).exec()
+
+            if (!updateDoctor) {
+                return res.status(501).json({
+                    message: 'Update error'
+                })
+            }
+
+            return res.status(200).json({
+                status: true,
+                message: 'Successfully step one complete.'
+            })
+        }
 
 
     } catch (error) {

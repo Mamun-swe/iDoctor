@@ -58,7 +58,7 @@ mongoose.connect('mongodb+srv://mamun166009:1118964208@cluster0-lkz2b.mongodb.ne
 });
 const db = mongoose.connection
 db.on('error', (err) => {
-    console.log(err)
+    console.log(err.message)
 })
 db.once('open', () => {
     console.log('MongoDB connection success')

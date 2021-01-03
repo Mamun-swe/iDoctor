@@ -102,8 +102,8 @@ const doctorSchema = new Schema({
     },
     updateRange: {
         type: Number,
-        enum: [5, 10, 20, 20, 25, 20],
-        default: 5
+        enum: [20, 40, 60, 80, 100],
+        default: 20
     },
     updateStep: {
         type: Number,

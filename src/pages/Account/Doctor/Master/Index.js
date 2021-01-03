@@ -24,6 +24,7 @@ const Master = () => {
     const [doctor, setDoctor] = useState({})
     const [isDaialog, setDaialog] = useState(false)
     const [step, setStep] = useState(null)
+    const id = localStorage.getItem('id')
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -45,7 +46,7 @@ const Master = () => {
         }
 
         loggedDoctor()
-    }, [header])
+    }, [id, header])
 
     // Handle Edit
     const handleProfileEdit = data => {
@@ -83,15 +84,15 @@ const Master = () => {
                             </div>
 
                             {/* Update Steps */}
-                            {step === 1 ?
-                                <StepOne responsestep={updateResponse} />
-                                : step === 2 ?
+                            {step === 20 ?
+                                <StepOne responsestep={updateResponse} id={id} />
+                                : step === 40 ?
                                     <StepTwo />
-                                    : step === 3 ?
+                                    : step === 60 ?
                                         <StepThree />
-                                        : step === 4 ?
+                                        : step === 80 ?
                                             <StepFour />
-                                            : step === 5 ?
+                                            : step === 100 ?
                                                 <StepFive />
                                                 : null}
 

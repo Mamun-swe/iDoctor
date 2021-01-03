@@ -22,6 +22,8 @@ const Login = () => {
     const checkRole = (token) => {
         const decode = jwt_decode(token)
         const role = decode.role
+        const id = decode.id
+        localStorage.setItem('id', id)
 
         if (role === 'doctor') {
             return history.push('/doctor')

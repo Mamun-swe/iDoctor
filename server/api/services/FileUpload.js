@@ -1,12 +1,12 @@
 
-// Single File Upload
-const fileUpload = file => {
+// Single File Upload function
+const fileUpload = (name, file, uploadPath) => {
     // Get file extension from filename
     const extension = file.name.split('.')[1]
     // Rename file with datetime format
-    const filename = Date.now() + '.' + extension
+    const filename = name.toLowerCase() + '_' + 'profile_' + Date.now() + '.' + extension
     // Upload path
-    path = './uploads/doctor/profiles' + filename
+    path = uploadPath + filename
     // Move file to path
     const moveFile = file.mv(path)
 

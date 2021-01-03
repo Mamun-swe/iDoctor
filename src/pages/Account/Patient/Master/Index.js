@@ -15,6 +15,7 @@ import FourOFour from '../../../FourOFour/Index'
 const Master = () => {
     const [show, setShow] = useState(false)
     const [user, setUser] = useState({})
+    const [id] = localStorage.getItem('id')
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -31,7 +32,7 @@ const Master = () => {
         }
 
         loggedUser()
-    }, [header])
+    }, [id, header])
 
     return (
         <div className="patient-master">

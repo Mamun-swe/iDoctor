@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { apiURL } from '../../../utils/apiURL'
 import { Images } from '../../../utils/Images'
 
-const StepOne = ({ responsestep }) => {
+const StepOne = ({ responsestep, id }) => {
     const { register, handleSubmit, errors } = useForm()
     const [previewURL, setPreviewURL] = useState(null)
     const [selectedFile, setSelectedFile] = useState(null)
@@ -26,16 +26,15 @@ const StepOne = ({ responsestep }) => {
             return setFileError(true)
         }
 
-
         try {
             // setLoading(true)
             let formData = new FormData()
             formData.append('name', data.name)
             formData.append('image', selectedFile)
 
-            const response = await axios.post(`${apiURL}doctor/profile/update`,)
+            const response = await axios.post(`${apiURL}doctor/profile/${id}/update`, formData)
             console.log(response)
-            // responsestep(2)
+            responsestep(2)
 
         } catch (error) {
             if (error) console.log(error.response)
