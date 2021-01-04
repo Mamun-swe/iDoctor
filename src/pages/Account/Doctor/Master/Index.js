@@ -90,9 +90,9 @@ const Master = () => {
                                 : step === 2 ?
                                     <StepTwo responsestep={updateResponse} id={id} />
                                     : step === 3 ?
-                                        <StepThree />
+                                        <StepThree responsestep={updateResponse} id={id} />
                                         : step === 4 ?
-                                            <StepFour />
+                                            <StepFour responsestep={updateResponse} id={id} />
                                             : step === 5 ?
                                                 <StepFive />
                                                 : null}

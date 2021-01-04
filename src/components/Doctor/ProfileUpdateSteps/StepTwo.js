@@ -36,7 +36,6 @@ const StepTwo = ({ responsestep, id }) => {
     return (
         <div className="step">
             <form onSubmit={handleSubmit(onSubmit)}>
-
                 <div className="row">
                     {/* College */}
                     <div className="col-12 col-md-6 pr-md-2">
@@ -126,17 +125,7 @@ const StepTwo = ({ responsestep, id }) => {
                             {isLoading ? <span>Please Wait...</span> : <span>Next</span>}
                         </button>
                     </div>
-
                 </div>
-
-
-
-
-
-
-
-
-
             </form>
         </div>
     );

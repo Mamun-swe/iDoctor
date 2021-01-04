@@ -74,4 +74,13 @@
             background: $primary-color;
         }
     }
+
+    .location-btn {
+        background: #dfdfdf;
+        transition: 0.3s all;
+    }
+
+    .location-btn:hover {
+        background: #c5c5c5;
+    }
 }

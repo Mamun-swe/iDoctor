@@ -40,7 +40,18 @@ const updateProfile = async (req, res, next) => {
     try {
         let filename
         const { id } = req.params
-        const { name, college, passingYear, specialist, currentHospital } = req.body
+        const {
+            name,
+            college,
+            passingYear,
+            specialist,
+            currentHospital,
+            country,
+            city,
+            currentAddress,
+            latitude,
+            longitude
+        } = req.body
 
 
         await CheckId(id)
@@ -107,9 +118,47 @@ const updateProfile = async (req, res, next) => {
                 status: true,
                 message: 'Successfully step one complete.'
             })
+        } else if (country && city && currentAddress) {
+            const updateData = {
+                country: country,
+                city: city,
+                currentAddress: currentAddress
+            }
+
+            // Update address
+            const updateDoctor = await doctor.updateOne(
+                { $set: { updateRange: 80, updateStep: 4, 'location.address': updateData } },
+                { new: true }
+            ).exec()
+
+            if (!updateDoctor) {
+                return res.status(501).json({
+                    message: 'Update error'
+                })
+            }
+
+            return res.status(200).json({
+                status: true,
+                message: 'Successfully step one complete.'
+            })
+        } else if (latitude && longitude) {
+            // Update location
+            const updateDoctor = await doctor.updateOne(
+                { $set: { updateRange: 90, updateStep: 5, 'location.coordinates': [latitude, longitude] } },
+                { new: true }
+            ).exec()
+
+            if (!updateDoctor) {
+                return res.status(501).json({
+                    message: 'Update error'
+                })
+            }
+
+            return res.status(200).json({
+                status: true,
+                message: 'Successfully step one complete.'
+            })
         }
-
-
     } catch (error) {
         if (error) console.log(error)
     }
