@@ -19,6 +19,21 @@
             }
         }
 
+        .card-body {
+            img {
+                width: 200px;
+            }
+
+            .btn {
+                color: #000;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 6px 25px;
+                background: #dfdfdf;
+                font-family: "Roboto", sans-serif;
+            }
+        }
+
         @media (min-width: 576px) {
             width: 550px;
         }

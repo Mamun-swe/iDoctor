@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../../utils/apiURL'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 import Icon from 'react-icons-kit'
 import { ic_dehaze } from 'react-icons-kit/md'
+import { Images } from '../../../../utils/Images'
 
 import SideMenuComponent from '../../../../components/Doctor/SideMenu/Index'
 import ProfileUpdateModal from '../../../../components/Doctor/Modal/ProfileUpdate/Index'
@@ -20,11 +21,13 @@ import StepFive from '../../../../components/Doctor/ProfileUpdateSteps/StepFive'
 
 
 const Master = () => {
+    const history = useHistory()
     const [show, setShow] = useState(false)
     const [doctor, setDoctor] = useState({})
     const [isDaialog, setDaialog] = useState(false)
     const [step, setStep] = useState(null)
     const id = localStorage.getItem('id')
+    const [isLoading, setLoading] = useState(false)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -59,7 +62,24 @@ const Master = () => {
         setStep(responseStep)
     }
 
+    // Logout
+    const doLogout = async () => {
+        try {
+            setLoading(true)
+            const response = await axios.get(`${apiURL}auth/logout`, header)
+            if (response.status === 200) {
+                localStorage.clear()
+                history.push('/')
+            }
+        } catch (error) {
+            if (error) {
+                localStorage.clear()
+                history.push('/')
+            }
+        }
+    }
 
+    // Account if pending
     if (doctor.isApproved === "pending") {
         return (
             <div className="update-page">
@@ -94,9 +114,39 @@ const Master = () => {
                                         : step === 4 ?
                                             <StepFour responsestep={updateResponse} id={id} />
                                             : step === 5 ?
-                                                <StepFive />
+                                                <StepFive responsestep={updateResponse} id={id} />
                                                 : null}
 
+                            <div className="text-center">
+                                <button type="button" className="btn shadow-none" onClick={doLogout} disabled={isLoading}>
+                                    {isLoading ? <span>Logging out ...</span> : <span>Logout</span>}
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    // Account if submitted
+    if (doctor.isApproved === "submitted") {
+        return (
+            <div className="update-page">
+                <div className="flex-center flex-column">
+                    <div className="card rounded-0 border-0 shadow">
+                        <div className="card-header bg-white p-4">
+                            <h5 className="mb-0">Hello doctor !</h5>
+                            <p className="mb-0">Your account has been submitted, Please wait for admin approval.</p>
+                        </div>
+                        <div className="card-body text-center">
+                            <img src={Images.PendingApproval} className="img-fluid" alt="..." />
+                            <div className="text-center">
+                                <button type="button" className="btn shadow-none" onClick={doLogout} disabled={isLoading}>
+                                    {isLoading ? <span>Logging out ...</span> : <span>Logout</span>}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,75 +1,99 @@
 import React, { useState } from 'react'
 import './style.scss'
-import Icon from 'react-icons-kit'
-import { ic_add, ic_close } from 'react-icons-kit/md'
+import axios from 'axios'
+import { useForm } from 'react-hook-form'
+import { apiURL } from '../../../utils/apiURL'
 
-const StepFive = () => {
-    const [inputFields, setInputFields] = useState([
-        { day: '', time: '' }
-    ])
+const StepFive = ({ responsestep, id }) => {
+    const { register, handleSubmit, errors } = useForm()
+    const [isLoading, setLoading] = useState(false)
 
-    const handleAddFields = () => {
-        const values = [...inputFields];
-        values.push({ day: '', time: '' })
-        setInputFields(values)
+    const onSubmit = async (data) => {
+        try {
+            setLoading(true)
+            const response = await axios.post(`${apiURL}doctor/profile/${id}/update`, data)
+            if (response.status === 200) {
+                setLoading(false)
+                responsestep(5)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
+        }
     }
-
-    const handleRemoveFields = index => {
-        const values = [...inputFields]
-        values.splice(index, 1)
-        setInputFields(values)
-    }
-
 
     return (
         <div className="step">
             <div className="mb-4">
                 <h6>Council hour</h6>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-                {inputFields.map((inputField, i) => (
-                    <div className="row mb-2" key={i}>
-                        <div className="col-12 col-lg-6 pr-md-2">
-                            <p>Day</p>
-                            <input
-                                type="text"
-                                className="form-control shadow-none"
-                            />
-                        </div>
-                        <div className="col-12 col-lg-6 pl-md-2">
-                            <p>Time</p>
-                            <div className="d-flex">
-                                <div className="flex-fill">
-                                    <input
-                                        type="date"
-                                        className="form-control shadow-none"
-                                    />
-                                </div>
-                                <div className="pl-2">
-                                    <button
-                                        type="button"
-                                        className="btn add-btn shadow-none"
-                                        onClick={handleAddFields}
-                                        style={styles.smBtn}
-                                    >
-                                        <Icon icon={ic_add} size={20} />
-                                    </button>
-                                </div>
-                                <div className="pl-2">
-                                    <button
-                                        type="button"
-                                        className="btn add-btn shadow-none"
-                                        onClick={handleRemoveFields}
-                                        style={styles.smBtn}
-                                    >
-                                        <Icon icon={ic_close} size={20} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <div className="row mb-2">
+                    <div className="col-12 col-lg-4">
+                        {errors.day && errors.day.message ? (
+                            <p className="text-danger">{errors.day && errors.day.message}</p>
+                        ) : <p>Day</p>
+                        }
+                        <select
+                            name="day"
+                            className="form-control shadow-none"
+                            ref={register({
+                                required: "Day is required"
+                            })}
+                        >
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                        </select>
                     </div>
-                ))}
+
+                    <div className="col-12 col-lg-4">
+                        {errors.startTime && errors.startTime.message ? (
+                            <p className="text-danger">{errors.startTime && errors.startTime.message}</p>
+                        ) : <p>Start time</p>
+                        }
+                        <input
+                            type="time"
+                            name="startTime"
+                            className="form-control shadow-none"
+                            ref={register({
+                                required: "Start time is required"
+                            })}
+                        />
+                    </div>
+
+                    <div className="col-12 col-lg-4">
+                        {errors.endTime && errors.endTime.message ? (
+                            <p className="text-danger">{errors.endTime && errors.endTime.message}</p>
+                        ) : <p>End time</p>
+                        }
+                        <input
+                            type="time"
+                            name="endTime"
+                            className="form-control shadow-none"
+                            ref={register({
+                                required: "End time is required"
+                            })}
+                        />
+                    </div>
+
+                    <div className="col-12 text-right mt-3">
+                        <button
+                            type="submit"
+                            className="btn shadow-none"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <span>Please Wait...</span> : <span>Next</span>}
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     );

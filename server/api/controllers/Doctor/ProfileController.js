@@ -1,4 +1,5 @@
 const Doctor = require('../../../models/Doctor')
+const Council = require('../../../models/Council')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
 const CheckId = require('../../middleware/CheckId')
@@ -50,7 +51,10 @@ const updateProfile = async (req, res, next) => {
             city,
             currentAddress,
             latitude,
-            longitude
+            longitude,
+            day,
+            startTime,
+            endTime
         } = req.body
 
 
@@ -158,6 +162,35 @@ const updateProfile = async (req, res, next) => {
                 status: true,
                 message: 'Successfully step one complete.'
             })
+        } else if (day && startTime && endTime) {
+
+            // Add new council
+            const newCouncil = new Council({
+                doctor: doctor._id,
+                schedule: [{ day: day, startTime: startTime, endTime: endTime }]
+            })
+
+            let council = await newCouncil.save()
+
+            // set council into doctor
+            const updateDoctor = await doctor.updateOne(
+                {
+                    $set: {
+                        updateRange: 100,
+                        updateStep: 6,
+                        isApproved: 'submitted',
+                        'councilHour': [council._id]
+                    }
+                },
+                { new: true }
+            ).exec()
+
+            if (council && updateDoctor) {
+                return res.status(200).json({
+                    status: true,
+                    message: 'Successfully all steps completed.'
+                })
+            }
         }
     } catch (error) {
         if (error) console.log(error)
