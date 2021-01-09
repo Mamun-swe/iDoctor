@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const FilterDoctorController = require('../controllers/Patient/SearchDoctor')
+const ProfileController = require('../controllers/Patient/ProfileController') 
 
-router.post('/find-doctor', FilterDoctorController.findNearestDoctors)
-
+router.get('/me', ProfileController.Me)
 
 module.exports = router

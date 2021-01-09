@@ -19,6 +19,7 @@ import StepThree from '../../../../components/Doctor/ProfileUpdateSteps/StepThre
 import StepFour from '../../../../components/Doctor/ProfileUpdateSteps/StepFour'
 import StepFive from '../../../../components/Doctor/ProfileUpdateSteps/StepFive'
 
+import Preloader from '../../../../components/Loader/Index'
 
 const Master = () => {
     const history = useHistory()
@@ -28,6 +29,7 @@ const Master = () => {
     const [step, setStep] = useState(null)
     const id = localStorage.getItem('id')
     const [isLoading, setLoading] = useState(false)
+    const [preLoading, setPreLoading] = useState(true)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -43,7 +45,7 @@ const Master = () => {
             if (response.status === 200) {
                 setDoctor(response.data.doctor)
                 setStep(response.data.doctor.updateStep)
-                console.log(response.data.doctor)
+                setPreLoading(false)
             }
         } catch (error) {
             if (error)
@@ -77,6 +79,13 @@ const Master = () => {
                 history.push('/')
             }
         }
+    }
+
+    // Preloader
+    if (preLoading) {
+        return (
+            <Preloader />
+        )
     }
 
     // Account if pending
@@ -159,7 +168,7 @@ const Master = () => {
             {/* Mobile Navbar */}
             <div className="mobile-navbar d-lg-none p-3">
                 <div className="d-flex">
-                    <div><p>mamun</p></div>
+                    <div><p>{doctor.name ?? doctor.email}</p></div>
                     <div className="ml-auto">
                         <button
                             type="button"

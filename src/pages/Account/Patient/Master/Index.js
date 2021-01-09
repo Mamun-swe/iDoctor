@@ -10,12 +10,14 @@ import SideMenu from '../../../../components/Patient/SideMenu/Index'
 import DashboardIndex from '../Dashboard/Index'
 import ProfileIndex from '../Profile/Index'
 import AppointmentIndex from '../Appointments/Index'
+import Loader from '../../../../components/Loader/Index'
 import FourOFour from '../../../FourOFour/Index'
 
 const Master = () => {
     const [show, setShow] = useState(false)
     const [user, setUser] = useState({})
     const [id] = localStorage.getItem('id')
+    const [isLoading, setLoading] = useState(true)
     const [header] = useState({
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
@@ -24,8 +26,12 @@ const Master = () => {
         // Fetch Logged User
         const loggedUser = async () => {
             try {
-                const response = await axios.get(`${apiURL}auth/me`, header)
-                setUser(response.data.user)
+                const response = await axios.get(`${apiURL}patient/me`, header)
+                if (response.status === 200) {
+                    setUser(response.data.patient)
+                    setLoading(false)
+                    console.log(response.data.patient)
+                }
             } catch (error) {
                 if (error) console.log(error.response)
             }
@@ -34,12 +40,20 @@ const Master = () => {
         loggedUser()
     }, [id, header])
 
+
+    // if loading
+    if (isLoading) {
+        return (
+            <Loader />
+        )
+    }
+
     return (
         <div className="patient-master">
             {/* Mobile Navbar */}
             <div className="mobile-navbar d-lg-none p-3">
                 <div className="d-flex">
-                    <div><p>mamun</p></div>
+                    <div><p>{user.name ? user.name : user.email}</p></div>
                     <div className="ml-auto">
                         <button
                             type="button"

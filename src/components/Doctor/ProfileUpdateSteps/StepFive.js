@@ -100,9 +100,3 @@ const StepFive = ({ responsestep, id }) => {
 }
 
 export default StepFive;
-
-const styles = {
-    smBtn: {
-        padding: '8px 10px'
-    }
-}

@@ -3,6 +3,7 @@ const Council = require('../../../models/Council')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
 const CheckId = require('../../middleware/CheckId')
+const publicURL = require('../../utils/url')
 
 // Me
 const Me = async (req, res, next) => {
@@ -13,14 +14,24 @@ const Me = async (req, res, next) => {
 
         // Find account using account id and role
         let account = await Doctor.findOne({
-            $and: [{ _id: decode.id }, { role: decode.role }]
-        }, { access_token: 0, password: 0 }).exec()
+            $and: [
+                { _id: decode.id },
+                { role: decode.role }
+            ]
+        }, { access_token: 0, password: 0 })
+            .populate('councilHour')
+            .exec()
 
         if (!account) {
             return res.status(404).json({
                 status: false,
                 message: 'Invalid token'
             })
+        }
+
+        for (const property in account) {
+            if (property === "image")
+                account[property] = publicURL(req) + 'uploads/doctor/profiles/' + account[property]
         }
 
         return res.status(200).json({

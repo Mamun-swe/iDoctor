@@ -16,7 +16,7 @@ const findNearestDoctors = async (req, res, next) => {
                     }
                 }
             })
-            console.log("res", doctors);
+        console.log("res", doctors);
 
         res.send(doctors)
 
