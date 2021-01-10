@@ -5,5 +5,6 @@ const ProfileController = require('../controllers/Patient/ProfileController')
 
 router.get('/me', Authenticate.isPatient, ProfileController.Me)
 router.post('/profile/:id/update/photo', Authenticate.isPatient, ProfileController.updatePhoto)
+router.post('/profile/:id/update/bio', Authenticate.isPatient, ProfileController.updateBio)
 
 module.exports = router

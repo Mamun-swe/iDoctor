@@ -6,7 +6,10 @@ import { Images } from '../../../../utils/Images'
 
 import { apiURL } from '../../../../utils/apiURL'
 import { checkIfError } from '../../../../utils/Error'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
+toast.configure({ autoClose: 2000 })
 const Index = ({ user }) => {
     const { register, handleSubmit, errors } = useForm()
     const [previewURL, setPreviewURL] = useState(null)
@@ -31,7 +34,7 @@ const Index = ({ user }) => {
                 const response = await axios.post(`${apiURL}patient/profile/${id}/update/photo`, formData, header)
                 if (response.status === 201) {
                     setUpload(false)
-                    console.log(response.data)
+                    toast.success(response.data.message)
                 }
             }
         } catch (error) {
@@ -43,8 +46,16 @@ const Index = ({ user }) => {
     }
 
     const onSubmit = async (data) => {
-        console.log(data)
-        setLoading(true)
+        try {
+            setLoading(true)
+            const response = await axios.post(`${apiURL}patient/profile/${id}/update/bio`, data, header)
+            if (response.status === 201) {
+                setLoading(false)
+                toast.success(response.data.message)
+            }
+        } catch (error) {
+            if (error) checkIfError(error)
+        }
     }
 
     return (
@@ -125,6 +136,7 @@ const Index = ({ user }) => {
                                                 <input
                                                     type="number"
                                                     name="age"
+                                                    defaultValue={user ? user.age : null}
                                                     className="form-control shadow-none"
                                                     ref={register({
                                                         required: "Age is required"
@@ -144,6 +156,7 @@ const Index = ({ user }) => {
                                                 <input
                                                     type="text"
                                                     name="height"
+                                                    defaultValue={user ? user.height : null}
                                                     className="form-control shadow-none"
                                                     ref={register({
                                                         required: "Height is required"
@@ -163,6 +176,7 @@ const Index = ({ user }) => {
                                                 <input
                                                     type="number"
                                                     name="weight"
+                                                    defaultValue={user ? user.weight : null}
                                                     className="form-control shadow-none"
                                                     placeholder="Weight (Kg)"
                                                     ref={register({
@@ -183,6 +197,7 @@ const Index = ({ user }) => {
                                                 <input
                                                     type="text"
                                                     name="bloodPressure"
+                                                    defaultValue={user ? user.bloodPressure : null}
                                                     className="form-control shadow-none"
                                                     ref={register({
                                                         required: "Blood pressure is required"

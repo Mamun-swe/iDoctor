@@ -94,8 +94,48 @@ const updatePhoto = async (req, res, next) => {
     }
 }
 
+// Update Bio
+const updateBio = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { name, age, height, weight, bloodPressure } = req.body
+
+        await CheckId(id)
+
+        // Find Profile
+        const patient = await Patient.findById({ _id: id }).exec()
+        if (!patient) {
+            return res.status(404).json({
+                status: false,
+                message: 'Patient not found'
+            })
+        }
+
+        const data = { name, age, height, weight, bloodPressure }
+
+        const updatePatient = await patient.updateOne(
+            { $set: data },
+            { new: true }
+        ).exec()
+
+        if (!updatePatient) {
+            return res.status(501).json({
+                message: 'Update error'
+            })
+        }
+
+        return res.status(201).json({
+            status: true,
+            message: 'Successfully profile updated.'
+        })
+
+    } catch (error) {
+        if (error) next(error)
+    }
+}
 
 module.exports = {
     Me,
-    updatePhoto
+    updatePhoto,
+    updateBio
 }

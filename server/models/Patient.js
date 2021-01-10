@@ -50,7 +50,12 @@ const patientSchema = new Schema({
         trim: true,
         default: null
     },
-    width: {
+    weight: {
+        type: String,
+        trim: true,
+        default: null
+    },
+    bloodPressure: {
         type: String,
         trim: true,
         default: null
