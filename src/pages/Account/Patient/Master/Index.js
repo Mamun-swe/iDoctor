@@ -12,6 +12,7 @@ import ProfileIndex from '../Profile/Index'
 import AppointmentIndex from '../Appointments/Index'
 import Loader from '../../../../components/Loader/Index'
 import FourOFour from '../../../FourOFour/Index'
+import { checkIfError } from '../../../../utils/Error'
 
 const Master = () => {
     const [show, setShow] = useState(false)
@@ -33,7 +34,9 @@ const Master = () => {
                     console.log(response.data.patient)
                 }
             } catch (error) {
-                if (error) console.log(error.response)
+                if (error) {
+                    checkIfError(error)
+                }
             }
         }
 

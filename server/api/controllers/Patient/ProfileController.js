@@ -1,8 +1,10 @@
 const Patient = require('../../../models/Patient')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
+const Unlink = require('../../services/FileDelete')
 const CheckId = require('../../middleware/CheckId')
 const publicURL = require('../../utils/url')
+
 
 // Me
 const Me = async (req, res, next) => {
@@ -43,6 +45,57 @@ const Me = async (req, res, next) => {
     }
 }
 
+// Update Profile Photo
+const updatePhoto = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        await CheckId(id)
+
+        // Find Profile
+        const patient = await Patient.findById({ _id: id }).exec()
+        if (!patient) {
+            return res.status(404).json({
+                status: false,
+                message: 'Patient not found'
+            })
+        }
+
+        // Remove Old file
+        if (patient.image) {
+            await Unlink.fileDelete('./uploads/patient/profiles/', patient.image)
+        }
+
+        if (req.files) {
+            filename = Upload.fileUpload(req.files.image, './uploads/patient/profiles/')
+
+            const updateData = { image: filename }
+
+            const updatePatient = await patient.updateOne(
+                { $set: updateData },
+                { new: true }
+            ).exec()
+
+            if (!updatePatient) {
+                return res.status(501).json({
+                    message: 'Update error'
+                })
+            }
+
+            return res.status(201).json({
+                status: true,
+                message: 'Successfully profile picture updated.'
+            })
+        }
+    } catch (error) {
+        if (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+}
+
+
 module.exports = {
-    Me
+    Me,
+    updatePhoto
 }

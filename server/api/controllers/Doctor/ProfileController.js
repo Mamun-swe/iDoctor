@@ -2,6 +2,7 @@ const Doctor = require('../../../models/Doctor')
 const Council = require('../../../models/Council')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
+const Unlink = require('../../services/FileDelete')
 const CheckId = require('../../middleware/CheckId')
 const publicURL = require('../../utils/url')
 
@@ -80,7 +81,13 @@ const updateProfile = async (req, res, next) => {
             })
         }
 
+        // Update doctor name & image
         if (req.files) {
+            // Remove Old file
+            if (doctor.image) {
+                await Unlink.fileDelete('./uploads/doctor/profiles/', doctor.image)
+            }
+
             filename = Upload.fileUpload(req.files.image, './uploads/doctor/profiles/')
 
             const updateData = {
@@ -90,7 +97,6 @@ const updateProfile = async (req, res, next) => {
                 updateStep: 2
             }
 
-            // Update doctor
             const updateDoctor = await doctor.updateOne(
                 { $set: updateData },
                 { new: true }
@@ -204,7 +210,8 @@ const updateProfile = async (req, res, next) => {
             }
         }
     } catch (error) {
-        if (error) console.log(error)
+        if (error)
+            next(error)
     }
 }
 

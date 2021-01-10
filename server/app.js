@@ -13,6 +13,7 @@ app.use(cors())
 app.use(fileUpload())
 
 app.use('/uploads/doctor/profiles', express.static('uploads/doctor/profiles/'))
+app.use('/uploads/patient/profiles', express.static('uploads/patient/profiles/'))
 
 // Main Routes
 const authRoute = require('./api/routes/auth')
