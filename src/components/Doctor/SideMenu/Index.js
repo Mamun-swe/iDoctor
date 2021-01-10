@@ -50,8 +50,8 @@ const Index = ({ doctor, editdialog }) => {
                             : <img src={fakeImg} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content">
-                        <p>{doctor.email}</p>
-                        <small>MBBS</small>
+                        <p>{doctor.name ? doctor.name : doctor.email}</p>
+                        <small className="text-capitalize">{doctor.specialist ?? null}</small>
                     </div>
                     <div className="ml-auto">
                         <button

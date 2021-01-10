@@ -40,6 +40,21 @@ const patientSchema = new Schema({
         trim: true,
         default: null
     },
+    age: {
+        type: Number,
+        trim: true,
+        default: null
+    },
+    height: {
+        type: String,
+        trim: true,
+        default: null
+    },
+    width: {
+        type: String,
+        trim: true,
+        default: null
+    },
     access_token: {
         type: String,
         trim: true,

@@ -1,7 +1,10 @@
 const Doctor = require('../../../models/Doctor')
+const Council = require('../../../models/Council')
 const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
+const Unlink = require('../../services/FileDelete')
 const CheckId = require('../../middleware/CheckId')
+const publicURL = require('../../utils/url')
 
 // Me
 const Me = async (req, res, next) => {
@@ -12,14 +15,24 @@ const Me = async (req, res, next) => {
 
         // Find account using account id and role
         let account = await Doctor.findOne({
-            $and: [{ _id: decode.id }, { role: decode.role }]
-        }, { access_token: 0, password: 0 }).exec()
+            $and: [
+                { _id: decode.id },
+                { role: decode.role }
+            ]
+        }, { access_token: 0, password: 0 })
+            .populate('councilHour')
+            .exec()
 
         if (!account) {
             return res.status(404).json({
                 status: false,
                 message: 'Invalid token'
             })
+        }
+
+        for (const property in account) {
+            if (property === "image")
+                account[property] = publicURL(req) + 'uploads/doctor/profiles/' + account[property]
         }
 
         return res.status(200).json({
@@ -50,7 +63,10 @@ const updateProfile = async (req, res, next) => {
             city,
             currentAddress,
             latitude,
-            longitude
+            longitude,
+            day,
+            startTime,
+            endTime
         } = req.body
 
 
@@ -65,7 +81,13 @@ const updateProfile = async (req, res, next) => {
             })
         }
 
+        // Update doctor name & image
         if (req.files) {
+            // Remove Old file
+            if (doctor.image) {
+                await Unlink.fileDelete('./uploads/doctor/profiles/', doctor.image)
+            }
+
             filename = Upload.fileUpload(req.files.image, './uploads/doctor/profiles/')
 
             const updateData = {
@@ -75,7 +97,6 @@ const updateProfile = async (req, res, next) => {
                 updateStep: 2
             }
 
-            // Update doctor
             const updateDoctor = await doctor.updateOne(
                 { $set: updateData },
                 { new: true }
@@ -158,9 +179,39 @@ const updateProfile = async (req, res, next) => {
                 status: true,
                 message: 'Successfully step one complete.'
             })
+        } else if (day && startTime && endTime) {
+
+            // Add new council
+            const newCouncil = new Council({
+                doctor: doctor._id,
+                schedule: [{ day: day, startTime: startTime, endTime: endTime }]
+            })
+
+            let council = await newCouncil.save()
+
+            // set council into doctor
+            const updateDoctor = await doctor.updateOne(
+                {
+                    $set: {
+                        updateRange: 100,
+                        updateStep: 6,
+                        isApproved: 'submitted',
+                        'councilHour': [council._id]
+                    }
+                },
+                { new: true }
+            ).exec()
+
+            if (council && updateDoctor) {
+                return res.status(200).json({
+                    status: true,
+                    message: 'Successfully all steps completed.'
+                })
+            }
         }
     } catch (error) {
-        if (error) console.log(error)
+        if (error)
+            next(error)
     }
 }
 

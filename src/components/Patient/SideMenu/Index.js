@@ -49,7 +49,7 @@ const Index = ({ user }) => {
                             : <img src={Images.FakeUser} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content pt-3">
-                        <p>{user.name}</p>
+                        <p>{user.name ? user.name : user.email}</p>
                     </div>
                 </div>
             </div>

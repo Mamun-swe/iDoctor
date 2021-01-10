@@ -11,8 +11,14 @@ const councilSchema = new Schema({
             trim: true,
             required: true
         },
-        time: {
-            type: Date,
+        startTime: {
+            type: String,
+            trim: true,
+            required: true
+        },
+        endTime: {
+            type: String,
+            trim: true,
             required: true
         }
     }]

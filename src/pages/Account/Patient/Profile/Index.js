@@ -1,21 +1,44 @@
 import React, { useState } from 'react'
 import './style.scss'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { Images } from '../../../../utils/Images'
+
+import { apiURL } from '../../../../utils/apiURL'
+import { checkIfError } from '../../../../utils/Error'
 
 const Index = ({ user }) => {
     const { register, handleSubmit, errors } = useForm()
     const [previewURL, setPreviewURL] = useState(null)
     const [isLoading, setLoading] = useState(false)
     const [isUpload, setUpload] = useState(false)
+    const id = localStorage.getItem('id')
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
 
     // Image onChange
-    const imageChangeHandeller = event => {
-        let file = event.target.files[0]
-        if (file) {
-            setPreviewURL(URL.createObjectURL(event.target.files[0]))
-            setUpload(true)
-            console.log(file)
+    const imageChangeHandeller = async (event) => {
+        const file = event.target.files[0]
+
+        try {
+            if (file) {
+                setPreviewURL(URL.createObjectURL(event.target.files[0]))
+                let formData = new FormData()
+                formData.append('image', file)
+
+                setUpload(true)
+                const response = await axios.post(`${apiURL}patient/profile/${id}/update/photo`, formData, header)
+                if (response.status === 201) {
+                    setUpload(false)
+                    console.log(response.data)
+                }
+            }
+        } catch (error) {
+            if (error) {
+                setUpload(false)
+                checkIfError(error)
+            }
         }
     }
 
