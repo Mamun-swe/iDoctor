@@ -140,28 +140,28 @@ const Master = () => {
     }
 
     // Account if submitted
-    if (doctor.isApproved === "submitted") {
-        return (
-            <div className="update-page">
-                <div className="flex-center flex-column">
-                    <div className="card rounded-0 border-0 shadow">
-                        <div className="card-header bg-white p-4">
-                            <h5 className="mb-0">Hello doctor !</h5>
-                            <p className="mb-0">Your account has been submitted, Please wait for admin approval.</p>
-                        </div>
-                        <div className="card-body text-center">
-                            <img src={Images.PendingApproval} className="img-fluid" alt="..." />
-                            <div className="text-center">
-                                <button type="button" className="btn shadow-none" onClick={doLogout} disabled={isLoading}>
-                                    {isLoading ? <span>Logging out ...</span> : <span>Logout</span>}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    // if (doctor.isApproved === "submitted") {
+    //     return (
+    //         <div className="update-page">
+    //             <div className="flex-center flex-column">
+    //                 <div className="card rounded-0 border-0 shadow">
+    //                     <div className="card-header bg-white p-4">
+    //                         <h5 className="mb-0">Hello doctor !</h5>
+    //                         <p className="mb-0">Your account has been submitted, Please wait for admin approval.</p>
+    //                     </div>
+    //                     <div className="card-body text-center">
+    //                         <img src={Images.PendingApproval} className="img-fluid" alt="..." />
+    //                         <div className="text-center">
+    //                             <button type="button" className="btn shadow-none" onClick={doLogout} disabled={isLoading}>
+    //                                 {isLoading ? <span>Logging out ...</span> : <span>Logout</span>}
+    //                             </button>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className="master">

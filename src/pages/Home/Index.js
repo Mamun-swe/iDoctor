@@ -33,7 +33,7 @@ const Index = () => {
         // Fetch Doctors
         const fetchDoctors = async () => {
             try {
-                const response = await axios.get(`${apiURL}users`)
+                const response = await axios.get(`https://jsonplaceholder.typicode.com/users`)
                 setDoctors(response.data)
                 setLoading(false)
             } catch (error) {
