@@ -19,6 +19,7 @@ import ResetIndex from './pages/Auth/Reset/Index'
 
 import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
 import PatientAccountMaster from './pages/Account/Patient/Master/Index'
+import AdminMaster from './pages/Account/Admin/Master/Index'
 import PrivateRoute from './components/PrivateRoute/Index'
 
 import ChatIndex from './pages/Chat/Index'
@@ -53,6 +54,14 @@ function App() {
             {/* Council Master */}
             <Route exact path="/messages/:reciverId">
               <ChatIndex />
+            </Route>
+
+            {/* Admin Master */}
+            {/* <PrivateRoute path="/admin" role="admin">
+              <AdminMaster />
+            </PrivateRoute> */}
+             <Route path="/admin" role="admin">
+              <AdminMaster />
             </Route>
 
             <Route path="*" component={FourOFour} />

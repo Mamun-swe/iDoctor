@@ -4,7 +4,7 @@ export const checkIfLoggedIn = () => {
     const token = localStorage.getItem("token");
     if (token) {
         const user = jwt_decode(token);
-        if (user.role === 'doctor' || 'patient') {
+        if (user.role === 'doctor' || 'patient' || 'admin') {
             return ({ role: user.role })
         }
         return false

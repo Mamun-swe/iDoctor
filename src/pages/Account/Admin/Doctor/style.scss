@@ -1,0 +1,12 @@
+@import "../../../../App.scss";
+
+// Show doctor
+.admin-doctor-show{
+    .btn{
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 25px;
+        background: $dashboard-primary;
+    }
+}

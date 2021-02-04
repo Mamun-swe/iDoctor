@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const Upload = require('../../services/FileUpload')
 const Unlink = require('../../services/FileDelete')
 const CheckId = require('../../middleware/CheckId')
-const publicURL = require('../../utils/url')
+const hostURL = require('../../utils/url')
 
 // Me
 const Me = async (req, res, next) => {
@@ -32,7 +32,7 @@ const Me = async (req, res, next) => {
 
         for (const property in account) {
             if (property === "image")
-                account[property] = publicURL(req) + 'uploads/doctor/profiles/' + account[property]
+                account[property] = hostURL(req) + 'uploads/doctor/profiles/' + account[property]
         }
 
         return res.status(200).json({
