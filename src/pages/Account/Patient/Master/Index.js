@@ -31,7 +31,7 @@ const Master = () => {
                 if (response.status === 200) {
                     setUser(response.data.patient)
                     setLoading(false)
-                    console.log(response.data.patient)
+                    localStorage.setItem('patient', JSON.stringify(response.data.patient))
                 }
             } catch (error) {
                 if (error) {

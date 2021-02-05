@@ -5,7 +5,7 @@ const checkId = require('../../middleware/CheckId')
 // Index of doctors
 const Index = async (req, res, next) => {
     try {
-        let doctors = await Doctor.find({}, { name: 1, specialist: 1, image: 1 }).exec()
+        let doctors = await Doctor.find({}, { name: 1, specialist: 1, image: 1, isApproved: 1 }).exec()
 
         if (!doctors.length)
             return res.status(404).json({ status: false, message: 'Doctors not found' })
@@ -38,7 +38,7 @@ const Show = async (req, res, next) => {
 
         // Find doctor
         let doctor = await Doctor.findById({ _id: id }, { access_token: 0, password: 0, role: 0 })
-            .populate('councilHour')
+            .populate('councilHour', 'schedule')
             .exec()
 
         if (!doctor) return res.status(404).json({ status: false, message: 'Doctor not found' })
@@ -71,7 +71,7 @@ const UpdateStatus = async (req, res, next) => {
         )
             .exec()
 
-        res.status(201).json({ status: true, message: `Successfully ${status}`})
+        res.status(201).json({ status: true, message: `Successfully ${status}` })
 
     } catch (error) {
         if (error) next(error)

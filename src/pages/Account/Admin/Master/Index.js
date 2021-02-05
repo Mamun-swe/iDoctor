@@ -6,6 +6,8 @@ import Layout from '../../../../components/Admin/Layout/Index'
 import Dashboard from '../Dashboard/Index'
 import DoctorIndex from '../Doctor/Index'
 import DoctorShow from '../Doctor/Show'
+import AdminIndex from '../Admins/Index'
+import AdminCreate from '../Admins/Create'
 import FourOFour from '../FourOFour/Index'
 
 const Index = () => {
@@ -17,6 +19,8 @@ const Index = () => {
                     <Route exact path="/admin/" component={Dashboard} />
                     <Route exact path="/admin/doctor" component={DoctorIndex} />
                     <Route exact path="/admin/doctor/:id/show" component={DoctorShow} />
+                    <Route exact path="/admin/admin-list" component={AdminIndex} />
+                    <Route exact path="/admin/create-admin" component={AdminCreate} />
                     <Route path="**" component={FourOFour} />
                 </Switch>
             </div>

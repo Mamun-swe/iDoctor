@@ -1,36 +1,38 @@
 import React, { useState } from 'react'
 import './style.scss'
 import Icon from 'react-icons-kit'
-import { ic_clear, ic_star } from 'react-icons-kit/md'
-
-import Toast from '../../../Toast-Notification/Index'
+import jwt_decode from 'jwt-decode'
+import { ic_clear } from 'react-icons-kit/md'
 import AppointmentModal from '../GetAppointment/Index'
 
-import DummyImage from '../../../../assets/doctor.jpg'
-
 const Index = ({ show, doctor }) => {
-    const [appointment, setAppointment] = useState(false)
-    const [isLoading, setLoading] = useState(false)
+    const token = localStorage.getItem('token')
+    const [showAppointment, setShowAppointment] = useState({
+        status: false,
+        doctorId: null
+    })
 
+    // Role check
+    const checkRole = (token) => {
+        const decode = jwt_decode(token)
+        const role = decode.role
+        if (role === 'patient') return true
+        return false
+    }
+
+    // Handle appointment
     const handleAppointment = () => {
-        setAppointment(true)
-    }
-
-    const hideAppoinment = () => {
-        setAppointment(false)
-    }
-
-    const submitAppointment = async (data) => {
-        console.log(data)
-        setLoading(true)
-        return (
-            <Toast
-                toast="success"
-                position="top-right"
-                title="Successfully"
-                message="Profile updated."
-            />
-        )
+        // Check loggedin user
+        if (token) {
+            const patient = checkRole(token)
+            if (patient) {
+                setShowAppointment({ status: true, doctorId: doctor._id })
+            } else {
+                console.log('you are not patient');
+            }
+        } else {
+            console.log('Logged in first');
+        }
     }
 
     return (
@@ -51,21 +53,22 @@ const Index = ({ show, doctor }) => {
                     {/* Basic Info */}
                     <div className="text-center">
                         <div className="img-box rounded-circle">
-                            <img src={DummyImage} className="img-fluid" alt="..." />
+                            <img src={doctor.image} className="img-fluid" alt="..." />
                         </div>
                         <br />
                         <h5 className="mb-0 text-capitalize">{doctor.name}</h5>
-                        <p>( MBBS, DMC )</p>
+                        <p className="text-capitalize mb-0">{doctor.specialist} Specialist</p>
+                        <p className="text-capitalize">{doctor.college}</p>
+                        {/* <Icon icon={ic_star} size={20} />
                         <Icon icon={ic_star} size={20} />
                         <Icon icon={ic_star} size={20} />
                         <Icon icon={ic_star} size={20} />
-                        <Icon icon={ic_star} size={20} />
-                        <Icon icon={ic_star} size={20} />
+                        <Icon icon={ic_star} size={20} /> */}
                     </div>
                     {/* Current Hospital */}
                     <div className="mt-3">
                         <h6 className="mb-0">Current Hospital</h6>
-                        <p>demo hospital</p>
+                        <p>{doctor.currentHospital}l</p>
                     </div>
                     {/* Schedule */}
                     <div className="mt-3">
@@ -74,26 +77,27 @@ const Index = ({ show, doctor }) => {
                             <thead>
                                 <tr>
                                     <th>Day</th>
-                                    <th>Time</th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>saturday</th>
-                                    <th>12:00 PM</th>
-                                </tr>
-                                <tr>
-                                    <th>saturday</th>
-                                    <th>12:00 PM</th>
-                                </tr>
+                                {doctor.councilHour && doctor.councilHour.map((item, i) =>
+                                    <tr key={i}>
+                                        <th>{item.schedule.day}</th>
+                                        <th>{item.schedule.startTime}</th>
+                                        <th>{item.schedule.endTime}</th>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
-                    {/* Fee */}
-                    <div className="mt-3">
+
+                    {/* ////////////////// Council Fee goes to here /////////////////// */}
+                    {/* <div className="mt-3">
                         <h6 className="mb-0">Councilling Fee</h6>
                         <p>100 tk.</p>
-                    </div>
+                    </div> */}
 
                     <div className="my-3 text-center">
                         <button
@@ -106,11 +110,10 @@ const Index = ({ show, doctor }) => {
             </div>
 
             {/* Appointment Modal */}
-            {appointment ?
+            {showAppointment.status ?
                 <AppointmentModal
-                    hidemodal={hideAppoinment}
-                    appointment={submitAppointment}
-                    loading={isLoading}
+                    doctor={showAppointment.doctorId}
+                    hidemodal={() => setShowAppointment({ status: false, doctorId: null })}
                 /> : null}
         </div>
     );

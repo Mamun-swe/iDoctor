@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './style.scss'
 import axios from 'axios'
-// import { apiURL } from '../../../utils/apiURL'
-import { NavLink, useHistory } from 'react-router-dom'
 import Icon from 'react-icons-kit'
-import {
-    ic_dashboard,
-    ic_people
-} from 'react-icons-kit/md'
+import { apiURL } from '../../../utils/apiURL'
 import { standby } from 'react-icons-kit/iconic'
+import { NavLink, useHistory } from 'react-router-dom'
+import { ic_dashboard, ic_people } from 'react-icons-kit/md'
 
 import Navbar from '../Navbar/Index'
 
@@ -18,6 +15,9 @@ const Index = () => {
     const [isLogout, setLogout] = useState(false)
     const [notifications, setNotifications] = useState([])
     const [messages, setMessages] = useState([])
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
 
     useEffect(() => {
         // Fetch Notifications
@@ -39,13 +39,26 @@ const Index = () => {
     }, [])
 
     // Logout
-    const doLogout = () => {
-        setLogout(true)
-        setTimeout(() => {
-            setLogout(false)
-            localStorage.clear()
-            history.push('/')
-        }, 2000)
+    const doLogout = async () => {
+        try {
+            setLogout(true)
+            const response = await axios(`${apiURL}admin/auth/logout`, header)
+            if (response.status === 200) {
+                setTimeout(() => {
+                    setLogout(false)
+                    localStorage.clear()
+                    history.push('/')
+                }, 1000)
+            }
+        } catch (error) {
+            if (error) {
+                setTimeout(() => {
+                    setLogout(false)
+                    localStorage.clear()
+                    history.push('/')
+                }, 1000)
+            }
+        }
     }
 
     return (
@@ -80,6 +93,17 @@ const Index = () => {
                                 type="button"
                                 className="btn shadow-none"
                             ><Icon icon={ic_people} size={20} />Doctors</NavLink>
+                        </li>
+
+                        {/* admins */}
+                        <li>
+                            <NavLink
+                                exact
+                                to="/admin/admin-list"
+                                activeClassName="isActive"
+                                type="button"
+                                className="btn shadow-none"
+                            ><Icon icon={ic_people} size={20} />Admin</NavLink>
                         </li>
 
                         {/* Logout */}

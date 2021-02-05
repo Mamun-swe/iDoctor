@@ -184,7 +184,7 @@ const updateProfile = async (req, res, next) => {
             // Add new council
             const newCouncil = new Council({
                 doctor: doctor._id,
-                schedule: [{ day: day, startTime: startTime, endTime: endTime }]
+                schedule: { day: day, startTime: startTime, endTime: endTime }
             })
 
             let council = await newCouncil.save()
