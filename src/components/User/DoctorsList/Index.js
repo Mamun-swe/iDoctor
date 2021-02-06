@@ -1,9 +1,7 @@
 import React, { useState, createRef } from 'react'
 import './style.scss'
 import Skeleton from 'react-loading-skeleton'
-
 import DoctorShowComponent from '../Modal/DoctorShow/Index'
-import DoctorImg from '../../../assets/doctor.jpg'
 
 const Index = ({ doctors, loading }) => {
     const [show, setShow] = useState(false)
@@ -11,9 +9,7 @@ const Index = ({ doctors, loading }) => {
     const [staticArr] = useState([...Array(16).keys()])
     const cardBody = createRef()
 
-    const closeShow = () => {
-        setShow(false)
-    }
+    const closeShow = () => setShow(false)
 
     // Show Doctor Info
     const shwoDoctorInfo = data => {
@@ -32,7 +28,6 @@ const Index = ({ doctors, loading }) => {
                                 <div className="col-6 col-md-4 col-lg-3 p-2" key={i}>
                                     <div className="card rounded-0 border-0">
                                         <Skeleton
-                                            // style={{ border: '1px solid #dfdfdf94' }}
                                             animation={true}
                                             count={1}
                                             width={cardBody.width}
@@ -61,11 +56,12 @@ const Index = ({ doctors, loading }) => {
                                     onClick={() => shwoDoctorInfo(doctor)}
                                 >
                                     <div className="img-box rounded-circle">
-                                        <img src={DoctorImg} className="img-fluid" alt="..." />
+                                        <img src={doctor.image} className="img-fluid" alt="..." />
                                     </div>
                                     <div className="content">
-                                        <h6>{doctor.username} <span>(medicine)</span></h6>
-                                        <p>MBBS, DMC</p>
+                                        <h6>{doctor.name}</h6>
+                                        <p className="text-capitalize">{doctor.specialist} Specialist</p>
+                                        <p className="text-capitalize">{doctor.currentHospital}</p>
                                     </div>
                                 </div>
                             </div>

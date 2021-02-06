@@ -19,11 +19,15 @@ app.use('/uploads/patient/profiles', express.static('uploads/patient/profiles/')
 const authRoute = require('./api/routes/auth')
 const doctorRoute = require('./api/routes/doctor')
 const patientRoute = require('./api/routes/patient')
+const adminRoute = require('./api/routes/admin')
+const clientRoute = require('./api/routes/client')
 
 // API URL's
-app.use('/api/auth', authRoute)
-app.use('/api/doctor', doctorRoute)
-app.use('/api/patient', patientRoute)
+app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/doctor', doctorRoute)
+app.use('/api/v1/patient', patientRoute)
+app.use('/api/v1/admin', adminRoute)
+app.use('/api/v1/client', clientRoute)
 
 app.use((req, res, next) => {
     let error = new Error('404 page Not Found')
@@ -68,7 +72,7 @@ db.once('open', () => {
 })
 
 // App Port
-const port = process.env.PORT || 4001
+const port = process.env.PORT || 4000
 app.listen(port, () => {
     console.log(`App running on ${port} port`)
 })

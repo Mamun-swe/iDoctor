@@ -16,9 +16,11 @@ import SearchResultIndex from './pages/SearchResult/Index'
 import LoginIndex from './pages/Auth/Login/Index'
 import RegisterIndex from './pages/Auth/Register/Index'
 import ResetIndex from './pages/Auth/Reset/Index'
+import AdminLogin from './pages/Auth/Admin/Login'
 
 import DoctorAccountMaster from './pages/Account/Doctor/Master/Index'
 import PatientAccountMaster from './pages/Account/Patient/Master/Index'
+import AdminMaster from './pages/Account/Admin/Master/Index'
 import PrivateRoute from './components/PrivateRoute/Index'
 
 import ChatIndex from './pages/Chat/Index'
@@ -39,6 +41,7 @@ function App() {
             <Route exact path="/login" component={LoginIndex} />
             <Route exact path="/register" component={RegisterIndex} />
             <Route exact path="/reset" component={ResetIndex} />
+            <Route exact path="/admin-login" component={AdminLogin} />
 
             {/* Doctor Master */}
             <PrivateRoute path="/doctor" role="doctor">
@@ -54,6 +57,14 @@ function App() {
             <Route exact path="/messages/:reciverId">
               <ChatIndex />
             </Route>
+
+            {/* Admin Master */}
+            <PrivateRoute path="/admin" role="super_admin">
+              <AdminMaster />
+            </PrivateRoute>
+            {/* <Route path="/admin" role="admin">
+              <AdminMaster />
+            </Route> */}
 
             <Route path="*" component={FourOFour} />
 

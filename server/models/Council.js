@@ -5,7 +5,7 @@ const councilSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Doctor'
     },
-    schedule: [{
+    schedule: {
         day: {
             type: String,
             trim: true,
@@ -21,7 +21,7 @@ const councilSchema = new Schema({
             trim: true,
             required: true
         }
-    }]
+    }
 })
 
 const Council = model('Council', councilSchema)
