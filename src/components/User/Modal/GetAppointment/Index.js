@@ -124,7 +124,11 @@ const GetAppointment = ({ hidemodal, doctor }) => {
                                                 className="form-control shadow-none"
                                                 placeholder="01xxxxxxxxx"
                                                 ref={register({
-                                                    required: "Phone number is required"
+                                                    required: "Phone number is required",
+                                                    pattern: {
+                                                        value: /^\(?([0-9]{3})\)?([0-9]{8})$/,
+                                                        message: "Number isn't valid."
+                                                    }
                                                 })}
                                             />
                                         </div>

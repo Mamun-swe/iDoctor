@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import './style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../../utils/apiURL'
@@ -34,12 +34,8 @@ const Master = () => {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
     })
 
-    useEffect(() => {
-        loggedDoctor()
-    }, [id, header])
-
     // Fetch Logged User
-    const loggedDoctor = async () => {
+    const loggedDoctor = useCallback(async () => {
         try {
             const response = await axios.get(`${apiURL}doctor/me`, header)
             if (response.status === 200) {
@@ -51,7 +47,11 @@ const Master = () => {
             if (error)
                 console.log(error.response)
         }
-    }
+    }, [header])
+
+    useEffect(() => {
+        loggedDoctor()
+    }, [id, header, loggedDoctor])
 
     // Handle Edit
     const handleProfileEdit = data => {

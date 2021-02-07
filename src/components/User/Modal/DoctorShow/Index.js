@@ -4,9 +4,11 @@ import Icon from 'react-icons-kit'
 import jwt_decode from 'jwt-decode'
 import { ic_clear } from 'react-icons-kit/md'
 import AppointmentModal from '../GetAppointment/Index'
+import AlertModal from '../Alert/Index'
 
 const Index = ({ show, doctor }) => {
     const token = localStorage.getItem('token')
+    const [isAuth, setAuth] = useState({ message: null, status: false })
     const [showAppointment, setShowAppointment] = useState({
         status: false,
         doctorId: null
@@ -22,17 +24,21 @@ const Index = ({ show, doctor }) => {
 
     // Handle appointment
     const handleAppointment = () => {
-        // Check loggedin user
         if (token) {
             const patient = checkRole(token)
             if (patient) {
                 setShowAppointment({ status: true, doctorId: doctor._id })
             } else {
-                console.log('you are not patient');
+                setAuth({ message: 'You are not patient, please create a patient account to get all services. Thank you', status: true })
             }
         } else {
-            console.log('Logged in first');
+            setAuth({ message: 'Please logged in first to access all services. Thank you', status: true })
         }
+    }
+
+    // Check Patient auth
+    if (isAuth.status) {
+        return (<AlertModal message={isAuth.message} hide={() => setAuth({ message: null, status: false })} />)
     }
 
     return (

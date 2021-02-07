@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import './style.scss'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -13,12 +13,8 @@ const Show = () => {
     const [isLoading, setLoading] = useState(true)
     const [isUpdate, setUpdate] = useState(false)
 
-    useEffect(() => {
-        fetchDoctor()
-    }, [id])
-
     // Fetch doctor
-    const fetchDoctor = async () => {
+    const fetchDoctor = useCallback(async () => {
         try {
             const response = await axios.get(`${apiURL}admin/doctor/${id}/show`)
             if (response.status === 200) {
@@ -28,7 +24,12 @@ const Show = () => {
         } catch (error) {
             if (error) console.log(error.response)
         }
-    }
+    }, [id])
+
+
+    useEffect(() => {
+        fetchDoctor()
+    }, [id, fetchDoctor])
 
     // Update account status
     const approveAccount = async (id) => {
