@@ -2,6 +2,7 @@ import React from 'react'
 import './style.scss'
 import { Icon } from 'react-icons-kit'
 import { ic_close } from 'react-icons-kit/md'
+import {Images} from '../../../../../utils/Images'
 
 const Index = ({ message, hide }) => {
     return (
@@ -18,6 +19,7 @@ const Index = ({ message, hide }) => {
                         </button>
                     </div>
                     <div className="card-body text-center px-4 pt-0 pb-5">
+                        <img src={Images.Unlock} className="img-fluid" alt="..." />
                         <h6 className="mb-0">{message}</h6>
                     </div>
                 </div>

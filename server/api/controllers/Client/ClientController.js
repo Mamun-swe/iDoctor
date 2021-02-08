@@ -1,4 +1,6 @@
 const Doctor = require('../../../models/Doctor')
+const Patient = require('../../../models/Patient')
+const Appointment = require('../../../models/Appointment')
 const hostURL = require('../../utils/url')
 
 // All Approved doctors
@@ -46,7 +48,59 @@ const DoctorsIndex = async (req, res, next) => {
     }
 }
 
+// Set Appointment Request
+const SetAppointmentRequest = async (req, res, next) => {
+    try {
+        const {
+            doctorId,
+            patientId,
+            name,
+            phone,
+            age,
+            height,
+            weight,
+            bloodPressure,
+            problemShortInfo
+        } = req.body
+
+        const newAppointment = new Appointment({
+            doctorId,
+            patientId,
+            patient: { name, phone, age, height, weight, bloodPressure, problemShortInfo }
+        })
+
+        // Create appoinment
+        const createAppointment = await newAppointment.save()
+        // Update doctor
+        const updateDoctor = await Doctor.findOneAndUpdate(
+            { _id: doctorId },
+            { $set: { 'appointments': [createAppointment._id] } },
+            { new: true }
+        ).exec()
+
+        // Update Patient
+        const updatePatient = await Patient.findOneAndUpdate(
+            { _id: patientId },
+            { $set: { 'appointmentRequests': [createAppointment._id] } },
+            { new: true }
+        ).exec()
+
+        if (createAppointment && updateDoctor && updatePatient)
+            return res.status(201).json({
+                status: true,
+                message: 'Your appointment request has been sent.'
+            })
+
+    } catch (error) {
+        if (error) {
+            console.log(error)
+            next(error)
+        }
+    }
+}
+
 
 module.exports = {
-    DoctorsIndex
+    DoctorsIndex,
+    SetAppointmentRequest
 }

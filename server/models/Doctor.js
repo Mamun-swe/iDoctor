@@ -85,6 +85,10 @@ const doctorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Council'
     }],
+    appointments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Appointment'
+    }],
     access_token: {
         type: String,
         trim: true,

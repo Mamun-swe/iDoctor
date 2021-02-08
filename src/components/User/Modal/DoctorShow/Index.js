@@ -4,7 +4,7 @@ import Icon from 'react-icons-kit'
 import jwt_decode from 'jwt-decode'
 import { ic_clear } from 'react-icons-kit/md'
 import AppointmentModal from '../GetAppointment/Index'
-import AlertModal from '../Alert/Index'
+import AlertModal from '../Alert/AuthCheck/Index'
 
 const Index = ({ show, doctor }) => {
     const token = localStorage.getItem('token')

@@ -60,6 +60,10 @@ const patientSchema = new Schema({
         trim: true,
         default: null
     },
+    appointmentRequests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Appointment'
+    }],
     access_token: {
         type: String,
         trim: true,

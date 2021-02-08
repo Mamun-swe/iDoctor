@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import './style.scss'
-// import axios from 'axios'
+import axios from 'axios'
 import Icon from 'react-icons-kit'
 import { useForm } from 'react-hook-form'
 import { ic_clear } from 'react-icons-kit/md'
-// import { apiURL } from '../../../../utils/apiURL'
+import { apiURL } from '../../../../utils/apiURL'
+import SuccessAppointment from '../Alert/SuccessAppointment/Index'
 
 const GetAppointment = ({ hidemodal, doctor }) => {
     const { register, handleSubmit, errors } = useForm()
     const [patient, setPatient] = useState({})
     const [isLoading, setLoading] = useState(false)
     const [isShowForm, setShowForm] = useState(false)
+    const [success, setSucess] = useState(false)
 
     useEffect(() => {
         const storedPatient = localStorage.getItem('patient')
@@ -25,14 +27,23 @@ const GetAppointment = ({ hidemodal, doctor }) => {
             appointmentData.doctorId = doctor
             appointmentData.patientId = patient._id
 
-
             setLoading(true)
-            // toast.success("Successfully account created")
-            console.log(appointmentData)
+            const response = await axios.post(`${apiURL}client/appointment/request`, appointmentData)
+            if (response.status === 201) {
+                setLoading(false)
+                setSucess(true)
+            }
+
         } catch (error) {
-            if (error) console.log(error.response)
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
+            }
         }
     }
+
+    // if success appoinment
+    if (success) return (<SuccessAppointment />)
 
     return (
         <div className="appointment-modal">
@@ -78,32 +89,6 @@ const GetAppointment = ({ hidemodal, doctor }) => {
                                                 placeholder="Enter your name"
                                                 ref={register({
                                                     required: "Name is required"
-                                                })}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Email */}
-                                    <div className="col-12 col-lg-6">
-                                        <div className="form-group mb-3">
-                                            {errors.email && errors.email.message ? (
-                                                <small className="text-danger">{errors.email && errors.email.message}</small>
-                                            ) : <small>E-mail</small>
-                                            }
-
-                                            <input
-                                                type="text"
-                                                name="email"
-                                                className="form-control shadow-none"
-                                                placeholder="example@gmail.com"
-                                                readOnly
-                                                defaultValue={patient ? patient.email : null}
-                                                ref={register({
-                                                    required: "E-mail is required",
-                                                    pattern: {
-                                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                                        message: "Invalid email address"
-                                                    }
                                                 })}
                                             />
                                         </div>
