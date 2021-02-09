@@ -1,10 +1,9 @@
 import React from 'react'
 import './style.scss'
+import {Images} from '../../utils/Images'
 
 import NavbarCompoent from '../../components/User/Navbar/Index'
 import FooterCompoent from '../../components/User/Footer/Index'
-
-import AboutImg from '../../assets/Static/about.png'
 
 const Index = () => {
     return (
@@ -19,7 +18,7 @@ const Index = () => {
                             <h1>About <span>iDoctor</span></h1>
                         </div>
                         <div className="col-12 col-lg-6 image-column text-center d-none d-lg-block">
-                            <img src={AboutImg} alt="..." />
+                            <img src={Images.About} alt="..." />
                         </div>
                         <div className="col-12 col-lg-6 content d-lg-none text-center">
                             <h1>About <span>iDoctor</span></h1>

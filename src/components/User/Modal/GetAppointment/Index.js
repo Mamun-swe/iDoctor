@@ -13,14 +13,18 @@ const GetAppointment = ({ hidemodal, doctor }) => {
     const [isLoading, setLoading] = useState(false)
     const [isShowForm, setShowForm] = useState(false)
     const [success, setSucess] = useState(false)
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
 
     useEffect(() => {
         const storedPatient = localStorage.getItem('patient')
         const patient = JSON.parse(storedPatient)
         setPatient(patient)
         setTimeout(() => { setShowForm(true) }, 2000)
-    }, [])
+    }, [header])
 
+    // Submit Appoinment
     const onSubmit = async (data) => {
         try {
             let appointmentData = data
@@ -28,7 +32,7 @@ const GetAppointment = ({ hidemodal, doctor }) => {
             appointmentData.patientId = patient._id
 
             setLoading(true)
-            const response = await axios.post(`${apiURL}client/appointment/request`, appointmentData)
+            const response = await axios.post(`${apiURL}patient/appointment/request`, appointmentData, header)
             if (response.status === 201) {
                 setLoading(false)
                 setSucess(true)
@@ -183,7 +187,7 @@ const GetAppointment = ({ hidemodal, doctor }) => {
                                     </div>
 
                                     {/* BP */}
-                                    <div className="col-12">
+                                    <div className="col-12 col-lg-6">
                                         <div className="form-group mb-3">
                                             {errors.bloodPressure && errors.bloodPressure.message ? (
                                                 <small className="text-danger">{errors.bloodPressure && errors.bloodPressure.message}</small>

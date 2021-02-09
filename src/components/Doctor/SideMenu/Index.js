@@ -10,8 +10,7 @@ import {
 } from 'react-icons-kit/md'
 import axios from 'axios'
 import { apiURL } from '../../../utils/apiURL'
-
-import fakeImg from '../../../assets/Static/vector.jpg'
+import { Images } from '../../../utils/Images'
 import { ic_edit } from 'react-icons-kit/md'
 
 const Index = ({ doctor, editdialog }) => {
@@ -47,7 +46,7 @@ const Index = ({ doctor, editdialog }) => {
                     <div className="img-box rounded-circle">
                         {doctor.image ?
                             <img src={doctor.image} className="img-fluid" alt="..." />
-                            : <img src={fakeImg} className="img-fluid" alt="..." />}
+                            : <img src={Images.FakeUser} className="img-fluid" alt="..." />}
                     </div>
                     <div className="content">
                         <p>{doctor.name ? doctor.name : doctor.email}</p>

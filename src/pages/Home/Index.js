@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import './style.scss'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 import { apiURL } from '../../utils/apiURL'
+import { Images } from '../../utils/Images'
 
 import NavbarComponent from '../../components/User/Navbar/Index'
 import SearchComponent from '../../components/User/Search/Index'
 import DoctorsListComponent from '../../components/User/DoctorsList/Index'
 import FooterCompoent from '../../components/User/Footer/Index'
-
-import SearchPeopleImg from '../../assets/Static/people_search.png'
-import ServiceImg from '../../assets/Static/service.png'
-import { Link } from 'react-router-dom'
 
 const Index = () => {
     const [latitude, setLatitude] = useState()
@@ -56,7 +54,7 @@ const Index = () => {
                             <h5>Choose your nearest specialist.</h5>
                         </div>
                         <div className="col-12 col-lg-6 image-column text-center">
-                            <img src={SearchPeopleImg} alt="..." />
+                            <img src={Images.PeopleSearch} alt="..." />
                         </div>
                         <div className="col-12 col-lg-6 content d-lg-none text-center">
                             <h1>Search Doctor</h1>
@@ -95,7 +93,7 @@ const Index = () => {
                             >Contact Us</Link>
                         </div>
                         <div className="col-12 col-lg-6 text-center text-lg-right mt-4 mt-lg-0">
-                            <img src={ServiceImg} className="img-fluid" alt="..." />
+                            <img src={Images.Service} className="img-fluid" alt="..." />
                         </div>
                     </div>
                 </div>

@@ -7,11 +7,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Icon } from 'react-icons-kit'
 import { ic_phone, ic_markunread, ic_location_on } from 'react-icons-kit/md'
 import { printer } from 'react-icons-kit/icomoon'
+import {Images} from '../../utils/Images'
 
 import NavbarCompoent from '../../components/User/Navbar/Index'
 import FooterCompoent from '../../components/User/Footer/Index'
-
-import ContactImg from '../../assets/Static/contact.png'
 
 toast.configure({ autoClose: 2000 })
 const Index = () => {
@@ -45,7 +44,7 @@ const Index = () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-6 text-center text-lg-left">
-                            <img src={ContactImg} className="img-fluid" alt="..." />
+                            <img src={Images.Contact} className="img-fluid" alt="..." />
                         </div>
                         <div className="col-12 col-lg-6 text-center text-lg-right content">
                             <h1>Contact</h1>

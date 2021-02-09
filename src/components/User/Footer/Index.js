@@ -7,8 +7,7 @@ import {
     linkedin2,
     twitter
 } from 'react-icons-kit/icomoon'
-
-import Logo from '../../../assets/Static/logo.png'
+import {Images} from '../../../utils/Images'
 
 const Index = () => {
     return (
@@ -18,7 +17,7 @@ const Index = () => {
                     <div className="col-12 col-lg-4 mb-4 mb-lg-0 pr-lg-4">
                         <div className="text-center text-lg-left">
                             <Link to="/">
-                                <img src={Logo} className="img-fluid" alt="..." />
+                                <img src={Images.Logo} className="img-fluid" alt="..." />
                             </Link>
                             <br />
                             <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. </p>

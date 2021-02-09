@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form"
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-import Logo from '../../../assets/Static/logo.png'
+import {Images} from '../../../utils/Images'
 
 toast.configure({ autoClose: 2000 })
 const Reset = () => {
@@ -39,7 +38,7 @@ const Reset = () => {
 
                 <div className="text-center logo-box">
                     <Link to="/">
-                        <img src={Logo} className="img-fluid" alt="..." />
+                        <img src={Images.Logo} className="img-fluid" alt="..." />
                     </Link>
                 </div>
 

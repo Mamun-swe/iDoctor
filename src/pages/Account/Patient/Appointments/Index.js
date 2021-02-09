@@ -1,13 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.scss'
+import axios from 'axios'
+import { apiURL } from '../../../../utils/apiURL'
 import { useHistory } from 'react-router-dom'
 
 const Index = () => {
     const history = useHistory()
+    const id = localStorage.getItem('id')
+    const [isLoading, setLoading] = useState(true)
+    const [appointments, setAppointments] = useState([])
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
+
+    useEffect(() => {
+        // Fetch Appointments
+        const fetchAppointments = async () => {
+            try {
+                const response = await axios.get(`${apiURL}patient/appointment/request/${id}/index`, header)
+                if (response.status === 200) {
+                    setAppointments(response.data.appointments)
+                    setLoading(false)
+                    console.log(response.data.appointments);
+                }
+            } catch (error) {
+                if (error) {
+                    setLoading(false)
+                    console.log(error.response)
+                }
+            }
+        }
+
+        fetchAppointments()
+    }, [id, header])
+
     // Open chat window
     const openChatWindow = () => {
         history.push(`/messages/${123}`)
     }
+
+    // data loading
+    if (isLoading) return (<div><p>Loading...</p></div>)
 
     return (
         <div className="appointments">
@@ -30,19 +63,29 @@ const Index = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><p>1</p></td>
-                                            <td><p>Doctor name</p></td>
-                                            <td><p>Date</p></td>
-                                            <td><p>Time</p></td>
-                                            <td className="text-center">
-                                                <button
-                                                    type="button"
-                                                    className="btn shadow-none"
-                                                    onClick={openChatWindow}
-                                                >go council</button>
-                                            </td>
-                                        </tr>
+                                        {appointments && appointments.map((appointment, i) =>
+                                            <tr key={i}>
+                                                <td><p>{i + 1}</p></td>
+                                                <td><p>{appointment.doctor.name}</p></td>
+                                                <td><p>{appointment.schedule.day ? appointment.schedule.day : 'Not set'}</p></td>
+                                                <td><p>{appointment.schedule.startTime ? appointment.schedule.startTime : 'Not set'}</p></td>
+                                                <td className="text-center">
+                                                    {appointment.status === 'pending' ?
+                                                        <button
+                                                            type="button"
+                                                            className="btn shadow-none"
+                                                            disabled={true}
+                                                        >Pending</button>
+                                                        :
+                                                        <button
+                                                            type="button"
+                                                            className="btn shadow-none"
+                                                            onClick={() => openChatWindow}
+                                                        >go council</button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
