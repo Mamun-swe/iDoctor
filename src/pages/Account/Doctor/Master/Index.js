@@ -10,8 +10,8 @@ import { Images } from '../../../../utils/Images'
 import SideMenuComponent from '../../../../components/Doctor/SideMenu/Index'
 import ProfileUpdateModal from '../../../../components/Doctor/Modal/ProfileUpdate/Index'
 import DashboardIndex from '../Dashboard/Index'
-import RequestsIndex from '../AppointmentRequest/Index'
-import AppointmentsIndex from '../PendingAppointments/Index'
+import AppointmentsIndex from '../Appointment/Index'
+import RequestsIndex from '../Requests/Index'
 
 import StepOne from '../../../../components/Doctor/ProfileUpdateSteps/StepOne'
 import StepTwo from '../../../../components/Doctor/ProfileUpdateSteps/StepTwo'
@@ -54,9 +54,7 @@ const Master = () => {
     }, [id, header, loggedDoctor])
 
     // Handle Edit
-    const handleProfileEdit = data => {
-        setDaialog(data)
-    }
+    const handleProfileEdit = data => setDaialog(data)
 
     // Update Response 
     const updateResponse = responseStep => {
@@ -82,11 +80,7 @@ const Master = () => {
     }
 
     // Preloader
-    if (preLoading) {
-        return (
-            <Preloader />
-        )
-    }
+    if (preLoading) return (<Preloader />)
 
     // Account if pending
     if (doctor.isApproved === "pending") {
@@ -197,8 +191,8 @@ const Master = () => {
                 <div className="main flex-fill">
                     <Switch>
                         <Route exact path="/doctor/" component={DashboardIndex} />
-                        <Route exact path="/doctor/requests" component={RequestsIndex} />
                         <Route exact path="/doctor/appointments" component={AppointmentsIndex} />
+                        <Route exact path="/doctor/requests" component={RequestsIndex} />
                     </Switch>
                 </div>
             </div>

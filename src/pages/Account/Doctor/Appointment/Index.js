@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import './style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../../utils/apiURL'
@@ -6,28 +6,32 @@ import { apiURL } from '../../../../utils/apiURL'
 import ManageScheduleModal from '../../../../components/Doctor/Modal/ManageSchedule/Index'
 
 const Index = () => {
+    const id = localStorage.getItem('id')
     const [show, setShow] = useState(false)
     const [requests, setRequests] = useState([])
+    const header = { headers: { Authorization: "Bearer " + localStorage.getItem("token") } }
 
-    useEffect(() => {
-        // Fetch Requests
-        const fetchRequests = async () => {
-            try {
-                const result = await axios.get(`${apiURL}users`)
-                setRequests(result.data)
-            } catch (error) {
-                if (error) {
-                    console.log(error.response)
-                }
+    const getRequests = useCallback(async () => {
+        try {
+            const response = await axios.get(`${apiURL}doctor/appointment/${id}/index`, header)
+            if (response.status === 200) {
+                console.log(response.data.requests);
+                setRequests(response.data.requests)
+            }
+        } catch (error) {
+            if (error) {
+                console.log(error.response)
             }
         }
-        fetchRequests()
     }, [])
 
+    useEffect(() => {
+        getRequests()
+    }, [id, header, getRequests])
+
     // Hide Modal
-    const hideModal = () => {
-        setShow(false)
-    }
+    const hideModal = () => setShow(false)
+
 
     return (
         <div className="index">

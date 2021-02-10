@@ -78,17 +78,17 @@ const Index = ({ doctor, editdialog }) => {
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/doctor/requests">
+                    to="/doctor/appointments">
                     <Icon icon={ic_people} size={20} />
-                    <span>appointment requests</span>
+                    <span>appointments</span>
                 </NavLink>
                 <NavLink
                     exact
                     activeClassName="is-Active"
                     className="btn btn-block shadow-none"
-                    to="/doctor/appointments">
+                    to="/doctor/requests">
                     <Icon icon={ic_info_outline} size={20} />
-                    <span>pending appointments</span>
+                    <span>Requests</span>
                 </NavLink>
 
                 <button

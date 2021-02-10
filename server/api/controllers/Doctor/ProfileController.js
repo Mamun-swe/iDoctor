@@ -15,11 +15,9 @@ const Me = async (req, res, next) => {
 
         // Find account using account id and role
         let account = await Doctor.findOne({
-            $and: [
-                { _id: decode.id },
-                { role: decode.role }
-            ]
-        }, { access_token: 0, password: 0 })
+            $and: [{ _id: decode.id }, { role: decode.role }]
+        },
+            { access_token: 0, password: 0 })
             .populate('councilHour')
             .exec()
 
@@ -44,8 +42,6 @@ const Me = async (req, res, next) => {
         if (error) next(error)
     }
 }
-
-
 
 
 // Update Profile
