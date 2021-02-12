@@ -56,7 +56,10 @@
                         font-weight: 400;
                         font-weight: 500;
                         line-height: 1.8rem;
-                        text-transform: capitalize;
+                    }
+
+                    .danger-border {
+                        border: 1px solid red !important;
                     }
 
                     .react-time-picker {

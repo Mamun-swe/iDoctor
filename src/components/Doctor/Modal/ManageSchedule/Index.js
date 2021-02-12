@@ -15,10 +15,10 @@ const formatedDate = () => {
     return today
 }
 
-const ManageSchedule = ({ show, hidemodal, patientinfo }) => {
+const ManageSchedule = ({ show, hidemodal, patientinfo, scheduledata, submitted }) => {
     const [isLoading, setLoading] = useState(true)
     const [appointDate, setAppointDate] = useState(formatedDate())
-    const [appointTime, setAppointTime] = useState(null)
+    const [appointTime, setAppointTime] = useState({ value: null, error: false })
 
     useEffect(() => {
         setTimeout(() => {
@@ -37,14 +37,20 @@ const ManageSchedule = ({ show, hidemodal, patientinfo }) => {
     }
 
     // onChange Time
-    const onChangeTime = data => {
-        setAppointTime(data)
+    const onChangeTime = data => setAppointTime({ value: data, error: false })
+
+    // Submit Scheduke
+    const submitSchedule = () => {
+        if (!appointTime.value) return setAppointTime({ value: null, error: true })
+
+        const data = {
+            day: appointDate,
+            startTime: appointTime.value,
+            appointmentId: patientinfo.appointmentId
+        }
+        scheduledata(data)
     }
 
-    const saveAppoinment = () => {
-        // console.log(appointDate + ' ' + appointTime)
-        console.log(appointTime)
-    }
 
     if (show === true) {
         return (
@@ -109,6 +115,8 @@ const ManageSchedule = ({ show, hidemodal, patientinfo }) => {
                                         </div>
                                         <div className="col-12 col-lg-5">
                                             <h6>Set Schedule</h6>
+
+                                            {/* Date */}
                                             <div className="p-lg-2">
                                                 <p>Appointment Date</p>
                                                 <Calendar
@@ -116,21 +124,31 @@ const ManageSchedule = ({ show, hidemodal, patientinfo }) => {
                                                     onChange={onChangeDate}
                                                 />
                                             </div>
+
                                             <div className="p-lg-2 mt-3 mt-lg-0">
-                                                <p>Appointment Time</p>
+
+                                                {/* Time */}
+                                                {appointTime.error ?
+                                                    <p className="text-danger">Time is required*</p>
+                                                    : <p>Appointment Time</p>}
                                                 <TimePicker
+                                                    className={appointTime.error ? "danger-border" : ""}
                                                     format="hh:mm a"
                                                     onChange={onChangeTime}
-                                                    value={appointTime}
+                                                    value={appointTime.value}
                                                 />
                                                 <br />
+
+                                                {/* Submit button */}
                                                 <button
                                                     type="button"
                                                     className="btn shadow-none px-4"
-                                                    onClick={saveAppoinment}
-                                                >Save Appointment</button>
+                                                    onClick={submitSchedule}
+                                                    disabled={submitted}
+                                                >
+                                                    {submitted ? 'Submitting...' : 'Save Appointment'}
+                                                </button>
                                             </div>
-
                                         </div>
                                     </div>
                                 }
