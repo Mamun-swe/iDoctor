@@ -37,6 +37,13 @@
                 }
 
                 .card-body {
+                    .loader-section {
+                        h3 {
+                            color: #dfdfdf;
+                            font-weight: 600;
+                        }
+                    }
+
                     .patient-info-column {
                         @media (min-width: 992px) {
                             border-right: 1px solid #dfdfdf;

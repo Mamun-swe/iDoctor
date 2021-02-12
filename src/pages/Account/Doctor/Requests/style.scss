@@ -1,30 +1,12 @@
 @import "../../../../App.scss";
 
 .index {
-    h5 {
-        margin-top: 5px;
-        margin-bottom: 0;
+    h4 {
         font-weight: 600;
         font-family: 'Roboto', sans-serif;
     }
 
-    .form-control {
-        font-size: 14px;
-        font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-
-        option {
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Roboto', sans-serif;
-        }
-    }
-
-    .form-control:focus {
-        border: 1px solid #dfdfdf;
-    }
-
-    .appointment {
+    .request {
         padding: 10px;
         background: #dfdfdf2d;
         border-bottom: 1px solid #dfdfdf;

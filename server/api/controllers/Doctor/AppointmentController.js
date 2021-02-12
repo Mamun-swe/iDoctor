@@ -7,7 +7,7 @@ const Index = async (req, res, next) => {
         const { id } = req.params
         await CheckId(id)
 
-        const results = await Appointment.find({ doctor: id })
+        const results = await Appointment.find({ doctor: id }, { doctor: 0, createdAt: 0, updatedAt: 0 })
             .populate('patientId', '_id')
             .exec()
         if (!results.length)

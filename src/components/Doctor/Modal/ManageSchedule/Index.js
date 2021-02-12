@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.scss'
 import Icon from 'react-icons-kit'
 import { ic_clear } from 'react-icons-kit/md'
@@ -15,9 +15,16 @@ const formatedDate = () => {
     return today
 }
 
-const ManageSchedule = ({ show, hidemodal }) => {
+const ManageSchedule = ({ show, hidemodal, patientinfo }) => {
+    const [isLoading, setLoading] = useState(true)
     const [appointDate, setAppointDate] = useState(formatedDate())
-    const [appointTime, setAppointTime] = useState('10:00')
+    const [appointTime, setAppointTime] = useState(null)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000);
+    }, [])
 
     // onChange date
     const onChangeDate = data => {
@@ -35,7 +42,8 @@ const ManageSchedule = ({ show, hidemodal }) => {
     }
 
     const saveAppoinment = () => {
-        console.log(appointDate + ' ' + appointTime)
+        // console.log(appointDate + ' ' + appointTime)
+        console.log(appointTime)
     }
 
     if (show === true) {
@@ -59,67 +67,78 @@ const ManageSchedule = ({ show, hidemodal }) => {
                                 </div>
                             </div>
                             <div className="card-body p-4">
-                                <div className="row">
-                                    <div className="col-12 col-lg-7 patient-info-column">
-                                        <h6>Patient Information</h6>
-                                        <table className="table table-sm table-borderless">
-                                            <tbody>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>Name:</p></td>
-                                                    <td><p>abdullah al mamun</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>age:</p></td>
-                                                    <td><p>24 yrs</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>weight:</p></td>
-                                                    <td><p>60 kg</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>height:</p></td>
-                                                    <td><p>6 feet</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>BP:</p></td>
-                                                    <td><p>80/100</p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style={{ width: 100 }}><p>Problem:</p></td>
-                                                    <td><p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book.</p></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="col-12 col-lg-5">
-                                        <h6>Set Schedule</h6>
-                                        <div className="p-lg-2">
-                                            <p>Appointment Date</p>
-                                            <Calendar
-                                                onChange={onChangeDate}
-                                            />
-                                        </div>
-                                        <div className="p-lg-2 mt-3 mt-lg-0">
-                                            <p>Appointment Time</p>
-                                            <TimePicker
-                                                onChange={onChangeTime}
-                                                value={appointTime}
-                                            />
-                                            <br />
-                                            <button
-                                                type="button"
-                                                className="btn shadow-none px-4"
-                                                onClick={saveAppoinment}
-                                            >Confirm Appointment</button>
-                                        </div>
 
+                                {/* Loader */}
+                                {isLoading ?
+                                    <div className="loader-section text-center py-5">
+                                        <h3 className="mb-0">Loading...</h3>
                                     </div>
-                                </div>
+                                    :
+                                    // Information data
+                                    <div className="row">
+                                        <div className="col-12 col-lg-7 patient-info-column">
+                                            <h6>Patient Information</h6>
+                                            <table className="table table-sm table-borderless">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>Name:</p></td>
+                                                        <td><p>{patientinfo.name}</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>age:</p></td>
+                                                        <td><p>{patientinfo.age} yrs</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>weight:</p></td>
+                                                        <td><p>{patientinfo.weight} kg</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>height:</p></td>
+                                                        <td><p>{patientinfo.height} feet</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>BP:</p></td>
+                                                        <td><p>{patientinfo.bloodPressure}</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style={{ width: 100 }}><p>Problem:</p></td>
+                                                        <td><p>{patientinfo.problemShortInfo}</p></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="col-12 col-lg-5">
+                                            <h6>Set Schedule</h6>
+                                            <div className="p-lg-2">
+                                                <p>Appointment Date</p>
+                                                <Calendar
+                                                    minDate={new Date()}
+                                                    onChange={onChangeDate}
+                                                />
+                                            </div>
+                                            <div className="p-lg-2 mt-3 mt-lg-0">
+                                                <p>Appointment Time</p>
+                                                <TimePicker
+                                                    format="hh:mm a"
+                                                    onChange={onChangeTime}
+                                                    value={appointTime}
+                                                />
+                                                <br />
+                                                <button
+                                                    type="button"
+                                                    className="btn shadow-none px-4"
+                                                    onClick={saveAppoinment}
+                                                >Save Appointment</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     } else {
         return null
