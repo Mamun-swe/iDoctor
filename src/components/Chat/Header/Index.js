@@ -7,10 +7,7 @@ import { useHistory } from 'react-router-dom'
 
 const Index = ({ sender, reciver }) => {
     const history = useHistory()
-
-    const closeChat = () => {
-        history.push('/')
-    }
+    const closeChat = () => history.push('/patient')
 
     return (
         <div className="chat-header shadow-sm">

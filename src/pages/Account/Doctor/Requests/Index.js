@@ -21,7 +21,7 @@ const Index = () => {
     // get all appointments requests
     const getRequests = useCallback(async () => {
         try {
-            const response = await axios.get(`${apiURL}doctor/appointment/${id}/index`, header)
+            const response = await axios.get(`${apiURL}doctor/appointment/${id}/requests`, header)
             if (response.status === 200) {
                 setRequests(response.data.requests)
                 setLoading(false)
@@ -55,7 +55,12 @@ const Index = () => {
     const submitAppointment = async (data) => {
         try {
             setSubmitting(true)
-            console.log(data);
+            const response = await axios.put(`${apiURL}doctor/appointment/approve`, data, header)
+            if (response.status === 201) {
+                getRequests()
+                setSubmitting(false)
+                hideModal()
+            }
         } catch (error) {
             if (error) {
                 console.log(error.response)

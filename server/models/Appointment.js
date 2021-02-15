@@ -49,7 +49,7 @@ const appointmentSchema = new Schema({
     status: {
         type: String,
         default: "pending",
-        enum: ["pending", "approved"]
+        enum: ["pending", "approved", "expired"]
     },
     schedule: {
         day: {

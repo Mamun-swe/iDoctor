@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './style.scss'
 import axios from 'axios'
-import { apiURL } from '../../../../utils/apiURL'
 import { useHistory } from 'react-router-dom'
+import { apiURL } from '../../../../utils/apiURL'
 
 const Index = () => {
     const history = useHistory()
@@ -21,7 +21,6 @@ const Index = () => {
                 if (response.status === 200) {
                     setAppointments(response.data.appointments)
                     setLoading(false)
-                    console.log(response.data.appointments);
                 }
             } catch (error) {
                 if (error) {
@@ -35,8 +34,8 @@ const Index = () => {
     }, [id, header])
 
     // Open chat window
-    const openChatWindow = () => {
-        history.push(`/messages/${123}`)
+    const goChatPage = (doctorId, appointmentId) => {
+        history.push(`/messages/${doctorId}/${appointmentId}`)
     }
 
     // data loading
@@ -80,7 +79,7 @@ const Index = () => {
                                                         <button
                                                             type="button"
                                                             className="btn shadow-none"
-                                                            onClick={() => openChatWindow}
+                                                            onClick={() => goChatPage(appointment.doctor._id, appointment._id)}
                                                         >go council</button>
                                                     }
                                                 </td>

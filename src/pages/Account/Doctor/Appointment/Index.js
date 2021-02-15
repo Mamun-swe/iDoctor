@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import './style.scss'
 import axios from 'axios'
 import { apiURL } from '../../../../utils/apiURL'
@@ -9,25 +9,31 @@ const Index = () => {
     const [isLoading, setLoading] = useState(true)
     const [option, setOption] = useState('All Pending')
     const [appointments, setAppointments] = useState([])
+    const [id] = useState(localStorage.getItem('id'))
+    const [header] = useState({
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    })
 
-    useEffect(() => {
-        // Fetch Appointments
-        const fetchAppointments = async () => {
-            try {
-                const response = await axios.get(`${apiURL}users`)
-                if (response.status === 200) {
-                    setAppointments(response.data)
-                    setLoading(false)
-                }
-            } catch (error) {
-                if (error) {
-                    setLoading(false)
-                    console.log(error.response)
-                }
+    // get all appointments requests
+    const getApprovedAppointments = useCallback(async () => {
+        try {
+            const response = await axios.get(`${apiURL}doctor/appointment/${id}/approved`, header)
+            if (response.status === 200) {
+                setAppointments(response.data.results)
+                setLoading(false)
+            }
+        } catch (error) {
+            if (error) {
+                setLoading(false)
+                console.log(error.response)
             }
         }
-        fetchAppointments()
-    }, [])
+    }, [id, header])
+
+
+    useEffect(() => {
+        getApprovedAppointments()
+    }, [id, header, getApprovedAppointments])
 
     // onChange Appointment
     const onChangeAppointment = event => {
@@ -62,8 +68,9 @@ const Index = () => {
                         {appointments && appointments.map((appointment, i) =>
                             <div className="d-flex appointment" key={i}>
                                 <div>
-                                    <p>{appointment.name}</p>
-                                    <small>Date: old || Time: 10:00 PM</small>
+                                    <p>{appointment.patient.name}</p>
+                                    <div><small>Phone: {appointment.patient.phone}</small></div>
+                                    <small>Date: {appointment.schedule.day} || Time: {appointment.schedule.startTime}</small>
                                 </div>
                                 <div className="ml-auto">
                                     <button
