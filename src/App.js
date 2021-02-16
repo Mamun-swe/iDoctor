@@ -54,7 +54,8 @@ function App() {
             </PrivateRoute>
 
             {/* Council Master */}
-            <Route exact path="/messages/:reciverId/:appointmentId">
+            {/* <Route exact path="/messages/:reciverId/:appointmentId"> */}
+            <Route exact path="/messages">
               <ChatIndex />
             </Route>
 

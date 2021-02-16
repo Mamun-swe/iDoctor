@@ -35,7 +35,7 @@ const Index = () => {
 
     // Open chat window
     const goChatPage = (doctorId, appointmentId) => {
-        history.push(`/messages/${doctorId}/${appointmentId}`)
+        history.push(`/messages?reciver=${doctorId}&appointmentid=${appointmentId}&token=${localStorage.getItem("token")}`)
     }
 
     // data loading
